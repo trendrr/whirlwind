@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+
+### Base template for html pages.
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<%def name="page_title()">WELCOME!</%def>
+		<title>
+			${self.page_title()}
+		</title>
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		
+		
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+		<script src="http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js"></script>	
+		<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
+		
+		${self.head_tags()}
+	</head>
+	<body>
+		${next.body()}
+		${self.scripts()}
+		<%def name="scripts()">
+			<!-- put page javascripts here.
+				remember to enclose in <script> tags
+			 -->
+		</%def>
+	</body>
+</html>
