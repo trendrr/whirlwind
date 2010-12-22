@@ -1,0 +1,5 @@
+# IGNORED FILES 
+#
+tmp/
+*.pyc
+
