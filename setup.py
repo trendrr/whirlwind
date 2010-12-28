@@ -77,7 +77,7 @@ setup(
     author = 'Trendrr',
     author_email = 'admin@trendrr.com',
     description = 'A highly scaleable Python Web framework.',
-    download_url = 'http://labs.trendrr.com/releases/0.1/whirlwind-0.1.tar.gz',
+    download_url = 'https://github.com/trendrr/whirlwind',
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,
