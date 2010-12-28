@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+/*-------------------------------------------    
+    Styles
+-------------------------------------------*/
+
+ui-offscreen {
+	position: absolute;
+	left: -10000px;	
+	top: 0px;
+}
+
+html, body, #wrap {
+	font-family:Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #258fcd; 
+	text-decoration:none;
+	font-weight:bold;
+}
