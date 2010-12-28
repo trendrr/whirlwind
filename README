@@ -22,7 +22,23 @@ sudo easy_install MongoKit
 sudo easy_install python-dateutil
 sudo easy_install pytz
 
-# then start.
+# install whirlwind
+download a copy of whirlwind from https://github.com/trendrr/whirlwind/
+# untar/unzip archive
+tar -xzf trendrr-whirlwind-5c17ff8.tar.gz
+
+# change to whirlwind directory
+cd whirlwind
+
+# run the setup script
+sudo python setup.py install
+
+# to create a whirlwind app
+whirlwind-admin.py --create-application myapp 
+
+# fill in env specific settings in settings file [myapp/config/settings.py]
+
+# to start app
 python main.py
 
 #########################
