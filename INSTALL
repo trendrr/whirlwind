@@ -1,0 +1,13 @@
+Thanks for downloading WhirlWind.
+
+To install it, make sure you have Python 2.5 or greater installed. Then run
+this command from the command prompt:
+
+    python setup.py install
+
+AS AN ALTERNATIVE, you can just copy the entire "whirlwind" directory to Python's
+site-packages directory, which is located wherever your Python installation
+lives. Some places you might check are:
+	
+	/usr/lib/python2.6/site-packages (Unix, Python 2.6)
+    /usr/lib/python2.5/site-packages (Unix, Python 2.5)
