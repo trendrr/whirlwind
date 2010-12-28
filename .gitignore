@@ -2,4 +2,7 @@
 #
 tmp/
 *.pyc
+*.project
+*.pydevproject
+*.settings
 
