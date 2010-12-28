@@ -86,7 +86,7 @@ setup(
                    'Environment :: Web Environment',
                    'Framework :: WhirlWind',
                    'Intended Audience :: Developers',
-                   'License :: OSI Approved :: BSD License',
+                   'License :: OSI Approved :: MIT License',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python',
                    'Topic :: Internet :: WWW/HTTP',
