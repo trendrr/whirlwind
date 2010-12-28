@@ -1,6 +1,6 @@
 import pymongo, uuid, datetime
 from datetime import timedelta
-from lib.mongo import Mongo
+from whirlwind.db.mongo import Mongo
 from application.models.user import User
 
 '''

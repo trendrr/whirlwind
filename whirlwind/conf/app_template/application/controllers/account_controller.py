@@ -1,7 +1,7 @@
 #from tornado import web
 from mako.template import Template
-from lib.request import BaseRequest
-from lib.mongo import Mongo
+from whirlwind.core.request import BaseRequest
+from whirlwind.db.mongo import Mongo
 import hashlib
 from application.models.user import User
 import datetime

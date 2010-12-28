@@ -1,8 +1,8 @@
 #from tornado import web
 from mako.template import Template
-from lib.request import BaseRequest
+from whirlwind.core.request import BaseRequest
 
-from lib.mongo import Mongo
+from whirlwind.db.mongo import Mongo
 import hashlib
 import os, StringIO, pycurl
 from tornado.web import authenticated

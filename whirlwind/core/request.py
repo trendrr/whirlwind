@@ -2,8 +2,8 @@ from tornado.web import RequestHandler, HTTPError
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from tornado.options import options
-from lib.session import Session
-from lib.flash import Flash
+from whirlwind.core.session import Session
+from whirlwind.view.flash import Flash
 import re, sys
 from tornado import web
 from urllib import unquote
