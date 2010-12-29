@@ -35,8 +35,8 @@ class Mongo(object):
      
     '''
         Useage:
-        from lib.mongo import Mongo
-        MongoDB.create(host='host.com', port='23423', username='mongouser', password='password')
+        from whirlwind.db.mongo import Mongo
+        Mongo.create(host='host.com', port='23423', username='mongouser', password='password')
     '''
     @staticmethod
     def create(**kwargs):
