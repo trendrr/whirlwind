@@ -14,7 +14,7 @@ class Bootstrap():
     
     def init_models(self):
         # TODO: we should be able to do this via some kind of reflection.
-        from lib.mongo import Mongo
+        from whirlwind.db.mongo import Mongo
         from application.models.user import User
         Mongo.db.register_models([User])
     
@@ -25,7 +25,7 @@ class Bootstrap():
         from tornado.options import options
         from config import options_setup
         from config.routes import route_list
-        from lib.mongo import Mongo
+        from whirlwind.db.mongo import Mongo
         
         #parse the app config
         tornado.options.parse_config_file(os.path.join(os.path.dirname(__file__),'config/settings.py'))
@@ -44,9 +44,6 @@ class Bootstrap():
             "cookie_secret": options.cookie_secret,
             "login_url": options.login_url,
         }
-        
-        #load whatever caches.
-#        cache.load_caches()
         
         #setup the controller action routes
         application = tornado.web.Application(route_list,**settings)
