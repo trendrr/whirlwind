@@ -17,7 +17,7 @@ class Filters():
     
     @staticmethod
     def long_timestamp(dt_str,tz="America/New_York"):
-        utc_dt = NCFilters._convert_utc_to_local(dt_str,tz)
+        utc_dt = Filters._convert_utc_to_local(dt_str,tz)
         if utc_dt:
             return utc_dt.strftime("%A, %d. %B %Y %I:%M%p")
         else:
@@ -25,12 +25,12 @@ class Filters():
     
     @staticmethod
     def short_timestamp(dt_str,tz="America/New_York"):
-        tz_dt = NCFilters._convert_utc_to_local(dt_str,tz)
+        tz_dt = Filters._convert_utc_to_local(dt_str,tz)
         return tz_dt.strftime("%m/%d/%Y %I:%M")
     
     @staticmethod
     def short_date(dt_str,tz="America/New_York"):
-        tz_dt = NCFilters._convert_utc_to_local(dt_str,tz)
+        tz_dt = Filters._convert_utc_to_local(dt_str,tz)
         return tz_dt.strftime("%m/%d/%Y")
     
     @staticmethod
