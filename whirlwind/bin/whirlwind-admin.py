@@ -10,9 +10,11 @@ import distutils
 from distutils import dir_util
 
 '''
-whirlwind.py --version
+whirlwind-admin.py --version
 
-whirlwind.py --create-application app_name
+whirlwind-admin.py --create-application app_name
+
+whirlwind-admin.py --generate-cookie-secret
 '''
 
 logging.basicConfig(level=logging.INFO,
@@ -35,10 +37,16 @@ def main():
                     default=False,
                     help="Print the version info for this release of WhirlWind")
     
+    parser.add_option("--gcs", "--generate-cookie-secret", dest="generate_cookie_secret",
+                    action="store_true",
+                    default=False,
+                    help="Generate a cookie secret hash")
+    
+    
     options, args = parser.parse_args()
 
-    if not options.create_app and not options.version:
-        parser.error('Must choose one -- try --ca or --v')
+    if not options.create_app and not options.version and not options.generate_cookie_secret:
+        parser.error('Must choose one -- try --ca or --v or --gcs')
 
     if options.create_app:
         
@@ -60,6 +68,11 @@ def main():
             
     if options.version:
         logging.info(whirlwind.get_version())
+
+    if options.generate_cookie_secret:
+        import base64
+        import uuid
+        print(base64.b64encode(uuid.uuid4().bytes + uuid.uuid4().bytes))
 
 if __name__ == "__main__":
     main()

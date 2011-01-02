@@ -21,8 +21,12 @@ define("db_host", default='localhost', help="connect to the db on this host")
 #define the database port
 define("db_port", default=27017, help="connect to the db on this port", type=int)
 
+#define the database name
+define("db_name", default="ui", help="the name of the database to use")
+
 define("cookie_secret", default="mehungryforcookie", help="cookie secret for tornado secure cookies")
-#should we enable sessions
-define("enable_sessions", default=True, help="connect to the db of this name", type=bool)
 
 define("login_url", default="/login", help="whats the login url")
+
+define("middleware_classes", default="", help="placeholder for the middleware_classes", multiple=True)
+

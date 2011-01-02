@@ -2,14 +2,8 @@ from mongokit import *
 import datetime
 import hashlib, hmac, base64, re
 import datetime
-from lib.mongo import Mongo
-
-'''
-    Remember to register with mongo.py
-'''
-
-
-
+from whirlwind.db.mongo import Mongo
+from tornado import options
 
 '''
 normalizes a username or email address
@@ -26,8 +20,8 @@ def normalize(username):
     name = name.replace(".", "")
     name = name.replace("$", "")
     return name;
-    
-    
+
+@Mongo.db.connection.register
 class User(Document):
     structure = {
                  '_id':unicode,

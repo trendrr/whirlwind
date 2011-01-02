@@ -1,4 +1,5 @@
 from mongokit import Connection
+from tornado.options import options
 
 
 '''
@@ -30,9 +31,8 @@ class Mongo(object):
     '''   
     @property
     def ui(self):
-        return self.connection['ui']
+        return self.connection[options.db_name]
     
-     
     '''
         Useage:
         from whirlwind.db.mongo import Mongo

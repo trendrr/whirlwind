@@ -2,12 +2,10 @@ from tornado.web import RequestHandler, HTTPError
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from tornado.options import options
-from whirlwind.core.session import Session
-from whirlwind.view.flash import Flash
 import re, sys
 from tornado import web
 from urllib import unquote
-
+from whirlwind.middleware import MiddlewareManager
 
 class BaseRequest(RequestHandler):
     
@@ -16,8 +14,7 @@ class BaseRequest(RequestHandler):
     def __init__(self, application, request, transforms=None):
         RequestHandler.__init__(self, application, request, transforms)
         self._current_user = None
-        self.session = Session(self)
-        self.flash = Flash()
+        self.middleware_manager = MiddlewareManager(self)
     
     def template_exists(self, template_name):
         tmp = self.__template_exists_cache.get(template_name, None)
@@ -44,12 +41,10 @@ class BaseRequest(RequestHandler):
             output_encoding='utf-8', 
             encoding_errors='replace',
             imports=[
-                'from whirlwind.filters import Filters, Cycler',
+                'from whirlwind.view.filters import Filters, Cycler',
             ]
         )
         
-        
-    
     def render_template(self,template_name, **kwargs):
         lookup = self._get_template_lookup()
         new_template = lookup.get_template(template_name)
@@ -65,38 +60,26 @@ class BaseRequest(RequestHandler):
         # allows us access to the request from within the template..
         kwargs['request'] = self.request
         
-        kwargs['session'] = self.session
-        
-        #check if we have any flash messages set in the session
-        if self.session.get('flash',False):     
-            #add it to our template context args   
-            kwargs['flash'] = self.session['flash']
-            
-            #remove the flash from the session
-            del self.session['flash']
-        else:
-            #required in case we add flash without redirecting
-            if len(self.flash):
-                kwargs['flash'] = self.flash
+        self.middleware_manager.run_view_hooks(view=kwargs)
         
         self.finish(new_template.render(**kwargs))
 
     '''
     hook into the end of the request
     '''
-    def finish(self, chunk=None):
-        if len(self.flash) > 0:
-            self.session['flash'] = self.flash
-
-        self.session.save()
+    def finish(self, chunk=None):        
+        #run all middleware response hooks
+        self.middleware_manager.run_response_hooks()
+        
         super(BaseRequest, self).finish(chunk)
-        del self.session
- 
+        
+    
     '''
     hook into the begining of the request here
     '''
     def prepare(self):
-        pass
+        #run all middleware request hooks
+        self.middleware_manager.run_request_hooks()
             
     def get_current_user(self):
         return self._current_user
