@@ -65,10 +65,8 @@ if len(sys.argv) > 1 and sys.argv[1] == 'bdist_wininst':
     for file_info in data_files:
         file_info[0] = '\\PURELIB\\%s' % file_info[0]
 
-# Dynamically calculate the version based on django.VERSION.
+
 version = __import__('whirlwind').get_version()
-#if u'SVN' in version:
-#    version = ' '.join(version.split(' ')[:-1])
 
 setup(
     name = "WhirlWind",

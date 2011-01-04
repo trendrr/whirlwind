@@ -41,8 +41,6 @@ class MiddlewareManager():
                     print "module __import__ failed", ex
                 
                 try:
-                    #print mod
-                    #print clsname
                     cls = getattr(mod, clsname)
                     inst = cls(self.request)
                 except AttributeError, ex:
@@ -59,6 +57,6 @@ class MiddlewareManager():
         try:
             pos = path.rindex('.')
         except ValueError:
-            raise Exception('%s is invalid' % middleware_path)
+            raise Exception('%s is invalid' % path)
         
         return path[:pos], path[pos+1:]
