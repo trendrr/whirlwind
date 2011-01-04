@@ -39,10 +39,6 @@ class Flash(defaultdict):
         else:
             self.update({key : [value]})
     
-    def __iter__(self):
-        for item in self.keys():
-            yield {'type': item, 'msg': self[item]}
-    
     '''    
     evaluate to True if there is at least one non-empty message
     '''
