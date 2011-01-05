@@ -17,8 +17,8 @@ template_dir = "%s/application/views" % app_path
 #define a dir for mako to cache compiled templates
 mako_modules_dir = "%s/tmp/mako_modules" % app_path
 
-#define a dir for log files
-log_dir = "%s/tmp/log" % app_path
+#define a log file... optionally just use the string 'db' to log it to mongo
+log = "%s/tmp/log/application.log" % app_path
 
 #define a database host
 db_host = 'localhost'

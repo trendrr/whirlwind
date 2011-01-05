@@ -1,4 +1,5 @@
 import sys,os
+from whirlwind.core.log import Log
 
 class Bootstrap():
     '''
@@ -12,12 +13,11 @@ class Bootstrap():
         #insert the parent directory into the front of the pythonpath list
         sys.path.insert(0,parent_dir)
     
-#    def init_models(self):
-#        # TODO: we should be able to do this via some kind of reflection.
-#        from whirlwind.db.mongo import Mongo
-#        from application.models.user import User
-#        Mongo.db.register_models([User])
-#    
+    def init_logging(self,log):
+        if log == 'db':
+            Log.create()
+        else:
+            Log.create('FILE',log)
     
     def main(self):
         #import tornado stuff
@@ -36,8 +36,8 @@ class Bootstrap():
         
         from config.routes import route_list
         
-        #register our model classes with mongo
-#        self.init_models()
+        #init a logger
+        self.init_logging(options.log)
         
         #add in any app settings 
         settings = {
@@ -54,7 +54,9 @@ class Bootstrap():
         
         #bind server to port
         http_server.listen(options.port)
-        print "Ready and listening"
+        
+        Log.info("Ready and listening")
+        
         #start the server
         tornado.ioloop.IOLoop.instance().start()
     

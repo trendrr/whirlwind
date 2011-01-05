@@ -11,8 +11,8 @@ class BaseRequest(RequestHandler):
     
     __template_exists_cache = {}
     
-    def __init__(self, application, request, transforms=None):
-        RequestHandler.__init__(self, application, request, transforms)
+    def __init__(self, application, request):
+        RequestHandler.__init__(self, application, request)
         self._current_user = None
         self.middleware_manager = MiddlewareManager(self)
     

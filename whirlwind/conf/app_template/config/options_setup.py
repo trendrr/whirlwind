@@ -30,3 +30,5 @@ define("login_url", default="/login", help="whats the login url")
 
 define("middleware_classes", default="", help="placeholder for the middleware_classes", multiple=True)
 
+define("log", default="", help="the logfile")
+
