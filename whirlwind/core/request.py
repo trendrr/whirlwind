@@ -2,10 +2,12 @@ from tornado.web import RequestHandler, HTTPError
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from tornado.options import options
-import re, sys
+import re, sys, threading
 from tornado import web
 from urllib import unquote
 from whirlwind.middleware import MiddlewareManager
+
+from tornado import ioloop
 
 class BaseRequest(RequestHandler):
     
@@ -15,6 +17,8 @@ class BaseRequest(RequestHandler):
         RequestHandler.__init__(self, application, request)
         self._current_user = None
         self.middleware_manager = MiddlewareManager(self)
+        self._is_threaded = False
+        self._is_whirlwind_finished = False
     
     def template_exists(self, template_name):
         tmp = self.__template_exists_cache.get(template_name, None)
@@ -67,12 +71,30 @@ class BaseRequest(RequestHandler):
     '''
     hook into the end of the request
     '''
-    def finish(self, chunk=None):        
+    def finish(self, chunk=None): 
+        print "FINISH!"       
+        self._is_whirlwind_finished = True
         #run all middleware response hooks
         self.middleware_manager.run_response_hooks()
-        
+        if self._is_threaded :
+            
+            print "Thread finished.  setting ioloop callback..", str(threading.currentThread())
+            self._chunk = chunk
+            ioloop.IOLoop.instance().add_callback(self.threaded_finish_callback)
+            return
+            
         super(BaseRequest, self).finish(chunk)
         
+    
+    '''
+     this is called by the ioloop when the thread finally returns.
+    '''
+    def threaded_finish_callback(self):
+        print "In the finish callback thread is ", str(threading.currentThread()) 
+        super(BaseRequest, self).finish(self._chunk)
+        self._chunk = None;
+        
+    
     
     '''
     hook into the begining of the request here
