@@ -20,38 +20,31 @@ def threaded(method):
     '''
     @asynchronous
     def wrapper(self, *args, **kwargs):
-        
-        print "ATT THE WRAPPER!"
-        print str(self)
-        self._is_threaded = True
-        
-        action = ThreadedAction(method, self, args, kwargs)
+        self._is_threaded = True        
+        action = ThreadedAction(method, self, *args, **kwargs)
         ThreadPool.instance().add_task(action.do_work)
-#        return method(self, *args, **kwargs)
 
     return wrapper
 
 
 class ThreadedAction():
     
-    def __init__(self, method, request, *args, **kwargs):
+    def __init__(self, method, controller, *args, **kwargs):
         self._method = method
-        self._request = request
+        self._controller = controller
         self._args = args
         self._kwargs = kwargs
         
     
     def do_work(self):
-        # TODO: handle controllers that return a value. 
-        # (think tornado considers that a json response)
-        print "trying to do some work 3!"
-        print str(self._request)
-        
-        self._method(self._request)#, *self._args, **self._kwargs)
-        print "done!"
-        if not self._request._is_whirlwind_finished :
-            self._request.finish()
-        
+        try :
+            # TODO: handle controllers that return a value. 
+            # (think tornado considers that a json response)
+            self._method(self._controller, *self._args, **self._kwargs)
+            if not self._controller._is_whirlwind_finished :
+                self._controller.finish()
+        except Exception,e :
+            self._controller._handle_request_exception(e)
         
         
 

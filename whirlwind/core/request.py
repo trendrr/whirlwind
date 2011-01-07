@@ -71,8 +71,7 @@ class BaseRequest(RequestHandler):
     '''
     hook into the end of the request
     '''
-    def finish(self, chunk=None): 
-        print "FINISH!"       
+    def finish(self, chunk=None):      
         self._is_whirlwind_finished = True
         #run all middleware response hooks
         self.middleware_manager.run_response_hooks()
@@ -186,6 +185,3 @@ class BaseRequest(RequestHandler):
             self.redirect('/404')
         else : # call super.
             self.redirect('/error')
-    
-    
-        
