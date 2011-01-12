@@ -2,6 +2,9 @@ import sys,os
 from whirlwind.core.log import Log
 
 class Bootstrap():
+    def __init__(self):
+        self.application = None
+    
     '''
     make sure the python path is set for this app
     '''
@@ -51,10 +54,10 @@ class Bootstrap():
         }
         
         #setup the controller action routes
-        application = tornado.web.Application(url_routes,**settings)
+        self.application = tornado.web.Application(url_routes,**settings)
         
         #instantiate a server instance
-        http_server = tornado.httpserver.HTTPServer(application)
+        http_server = tornado.httpserver.HTTPServer(self.application)
         
         #bind server to port
         http_server.listen(options.port)
@@ -64,6 +67,13 @@ class Bootstrap():
         #start the server
         tornado.ioloop.IOLoop.instance().start()
     
+    def init_routes(self):
+        import pkgutil,sys,inspect
+        import application.controllers
+        package = application.controllers
+        prefix = package.__name__ + "."
+        for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
+            module = __import__(modname)
     
     @staticmethod
     def run():

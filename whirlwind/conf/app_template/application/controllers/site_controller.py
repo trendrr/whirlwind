@@ -14,4 +14,4 @@ class IndexHandler(BaseRequest):
         template_values = {
             'page_id' : 'homepage'
         }
-        self.render_template('/site/welcome.html',**template_values)       
+        self.render_template('/site/welcome.html',**template_values)
