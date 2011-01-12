@@ -41,7 +41,7 @@ class Bootstrap():
         from config.routes import route_list
         url_routes = route.get_routes()
         url_routes.extend(route_list)
-        
+        self.init_routes()
         
         #init a logger
         self.init_logging(options.log)
