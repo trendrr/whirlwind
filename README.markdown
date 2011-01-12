@@ -1,4 +1,4 @@
-# Setup instructions:
+# Setup instructions
 
 ## On Ubuntu (recommended)
 
@@ -6,7 +6,7 @@
 `sudo apt-get install python-dev`
 
 ### install tornado, follow instructions on:
-[[http://www.tornadoweb.org/documentation#download]]
+http://www.tornadoweb.org/documentation#download
 
 ### install the python setup tools
 `sudo apt-get install python-setuptools`
@@ -15,13 +15,12 @@
 `sudo easy_install -U setuptools`
 
 ### install required python modules
-`sudo easy_install Mako`
-
-`sudo easy_install MongoKit`
-
-`sudo easy_install python-dateutil`
-
-`sudo easy_install pytz`
+<pre>
+sudo easy_install Mako
+sudo easy_install MongoKit
+sudo easy_install python-dateutil
+sudo easy_install pytz
+</pre>
 
 ### install whirlwind
 `download a copy of whirlwind from https://github.com/trendrr/whirlwind/ or alternately clone a copy of the git repo`
@@ -38,11 +37,11 @@
 ### to create a whirlwind app
 `whirlwind-admin.py --create-application myapp`
 
-### fill in env specific settings in settings file [myapp/config/settings.py]
-
-`generate a cookie secret (copy output to config/settings.py)`
-
-`whirlwind-admin.py --gcs`
+### fill in env specific settings in settings file [config/settings.py]
+<pre>
+generate a cookie secret (copy output to config/settings.py)
+whirlwind-admin.py --gcs
+</pre>
 
 ### to start app
 `python main.py`
