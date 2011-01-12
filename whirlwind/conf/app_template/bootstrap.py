@@ -28,7 +28,6 @@ class Bootstrap():
         from tornado.options import options
         from config import options_setup
         from whirlwind.db.mongo import Mongo
-        from whirlwind.view.decorators import route
         
         #parse the app config
         tornado.options.parse_config_file(os.path.join(os.path.dirname(__file__),'config/settings.py'))
@@ -38,10 +37,8 @@ class Bootstrap():
         #connect to our db using our options set in settings.py
         Mongo.create(host=options.db_host, port=options.db_port)
         
-        from config.routes import route_list
-        url_routes = route.get_routes()
-        url_routes.extend(route_list)
-        self.init_routes()
+        #init our url routes
+        url_routes = self.init_routes()
         
         #init a logger
         self.init_logging(options.log)
@@ -62,6 +59,7 @@ class Bootstrap():
         #bind server to port
         http_server.listen(options.port)
         
+        #log our start message
         Log.info("Ready and listening")
         
         #start the server
@@ -70,10 +68,23 @@ class Bootstrap():
     def init_routes(self):
         import pkgutil,sys,inspect
         import application.controllers
+        from whirlwind.view.decorators import route
+        from config.routes import route_list
+        
+        #import all the controllers so the route decorators will run
         package = application.controllers
         prefix = package.__name__ + "."
+        
         for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
             module = __import__(modname)
+        
+        #grab the routes defined via the route decorator
+        url_routes = route.get_routes()
+        
+        #add the routes from our route file
+        url_routes.extend(route_list)
+
+        return url_routes
     
     @staticmethod
     def run():
