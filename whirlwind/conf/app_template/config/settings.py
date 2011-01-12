@@ -33,7 +33,6 @@ db_name = 'test'
 cookie_secret = "setthistoyourowncookiesecret"
 
 middleware_classes = [
-    "whirlwind.middleware.test.TestMiddleware",
     "whirlwind.middleware.session.middleware.SessionMiddleware",
     "whirlwind.middleware.flash.middleware.FlashMiddleware",
 ]

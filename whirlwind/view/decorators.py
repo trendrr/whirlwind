@@ -25,6 +25,8 @@ def role_required(role):
 
 class route(object):
     """
+    taken from http://gist.github.com/616347
+    
     decorates RequestHandlers and builds up a list of routables handlers
 
     Tech Notes (or "What the *@# is really happening here?")

@@ -6,8 +6,9 @@ from whirlwind.db.mongo import Mongo
 import hashlib
 import os, StringIO, pycurl
 from tornado.web import authenticated
+from whirlwind.view.decorators import route
 
-
+@route('/')
 class IndexHandler(BaseRequest):
     def get(self):
         template_values = {

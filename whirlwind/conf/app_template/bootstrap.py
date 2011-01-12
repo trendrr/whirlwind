@@ -25,6 +25,7 @@ class Bootstrap():
         from tornado.options import options
         from config import options_setup
         from whirlwind.db.mongo import Mongo
+        from whirlwind.view.decorators import route
         
         #parse the app config
         tornado.options.parse_config_file(os.path.join(os.path.dirname(__file__),'config/settings.py'))
@@ -35,6 +36,9 @@ class Bootstrap():
         Mongo.create(host=options.db_host, port=options.db_port)
         
         from config.routes import route_list
+        url_routes = route.get_routes()
+        url_routes.extend(route_list)
+        
         
         #init a logger
         self.init_logging(options.log)
@@ -47,7 +51,7 @@ class Bootstrap():
         }
         
         #setup the controller action routes
-        application = tornado.web.Application(route_list,**settings)
+        application = tornado.web.Application(url_routes,**settings)
         
         #instantiate a server instance
         http_server = tornado.httpserver.HTTPServer(application)

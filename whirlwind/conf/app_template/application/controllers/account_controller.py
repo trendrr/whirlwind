@@ -6,14 +6,17 @@ import hashlib
 from application.models.user import User
 import datetime
 from tornado.web import authenticated
-        
+from whirlwind.view.decorators import route
+
+@route('/logout')
 class LogoutHandler(BaseRequest):
     def get(self):
         self.session['username'] = None
         self.session.destroy()
         #kill the session.
         self.redirect("/")
-        
+
+@route('/login')
 class LoginHandler(BaseRequest):
     def get(self):
         template_values = {}
@@ -65,6 +68,7 @@ class LoginHandler(BaseRequest):
         forwardUrl = self.get_argument('next','/')
         self.redirect(forwardUrl)
 
+@route('/signup')
 class SignupHandler(BaseRequest):
     def get(self):
         template_values = {}
