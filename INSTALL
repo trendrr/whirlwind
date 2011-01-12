@@ -1,13 +1,47 @@
-Thanks for downloading WhirlWind
+# Setup instructions
 
-To install it, make sure you have Python 2.5 or greater installed. Then run
-this command from the command prompt:
+## On Ubuntu (recommended)
 
-    python setup.py install
+### install python dev
+`sudo apt-get install python-dev`
 
-AS AN ALTERNATIVE, you can just copy the entire "whirlwind" directory to Python's
-site-packages directory, which is located wherever your Python installation
-lives. Some places you might check are:
-	
-	/usr/lib/python2.6/site-packages (Unix, Python 2.6)
-    /usr/lib/python2.5/site-packages (Unix, Python 2.5)
+### install tornado, follow instructions on:
+[[http://www.tornadoweb.org/documentation#download]]
+
+### install the python setup tools
+`sudo apt-get install python-setuptools`
+
+### upgrade setuptools
+`sudo easy_install -U setuptools`
+
+### install required python modules
+<pre>
+sudo easy_install Mako
+sudo easy_install MongoKit
+sudo easy_install python-dateutil
+sudo easy_install pytz
+</pre>
+
+### install whirlwind
+`download a copy of whirlwind from https://github.com/trendrr/whirlwind/ or alternately clone a copy of the git repo`
+ 
+### untar/unzip archive
+`tar -xzf trendrr-whirlwind-5c17ff8.tar.gz`
+
+### change to whirlwind directory
+`cd whirlwind`
+
+### run the setup script
+`sudo python setup.py install`
+
+### to create a whirlwind app
+`whirlwind-admin.py --create-application myapp`
+
+### fill in env specific settings in settings file [config/settings.py]
+<pre>
+generate a cookie secret (copy output to config/settings.py)
+whirlwind-admin.py --gcs
+</pre>
+
+### to start app
+`python main.py`
