@@ -9,6 +9,19 @@ except ImportError:
 class Filters():
     
     @staticmethod
+    def str(val):
+        if not val:
+            return ''
+        #TODO: sensibly handle:
+        # dicts => json 
+        # dates => pretty 
+        # numbers => add commas
+        return str(val)
+        
+        
+    
+    
+    @staticmethod
     def strip_html(data):
         if not data :
             return
@@ -72,8 +85,6 @@ class Filters():
     def pluralize(str):
         pl = Pluralizer()
         return pl.plural(str)
-        
-
 
 class Pluralizer():
     #
