@@ -8,6 +8,33 @@ except ImportError:
 
 class Filters():
     
+    '''
+        Checks whether the passed in value is considered useful otherwise will return None
+
+        will return None on the following values:
+            None
+            ''
+            'null'
+            'undefined'
+            {}
+    '''
+    @staticmethod
+    def val(val):
+        if val == None :
+            return None
+        if val == 'null' :
+            return None
+        if val == 'undefined' :
+            return None
+        if val == 0 :
+            return val
+        if isinstance(val, basestring) and len(val) == 0 :
+            return None
+        if isinstance(val, dict) and len(val) == 0 :
+            return None
+        return val
+    
+    
     @staticmethod
     def str(val):
         if not val:
@@ -18,7 +45,22 @@ class Filters():
         # numbers => add commas
         return str(val)
         
-        
+    
+    '''
+        Checks for various styles of true.
+        matches on True, 'true', 'on'
+    '''
+    @staticmethod
+    def is_true(val):        
+        if not val :
+            return False
+        if isinstance(val, basestring) :
+            if val == 'True' or val == 'true' or val == 'on' :
+                return True
+            return False
+        if val == True :
+             return True
+        return False
     
     
     @staticmethod

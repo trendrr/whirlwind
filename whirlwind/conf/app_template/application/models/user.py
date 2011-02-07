@@ -1,7 +1,6 @@
 from mongokit import *
 import datetime
 import hashlib, hmac, base64, re
-import datetime
 from whirlwind.db.mongo import Mongo
 from tornado import options
 
@@ -26,7 +25,7 @@ class User(Document):
     structure = {
                  '_id':unicode,
                  'email':unicode,
-                 'access':list,
+                 'roles':list,
                  'password':unicode,
                  'created_at':datetime.datetime,
                  'history' : {
@@ -34,7 +33,6 @@ class User(Document):
                               'num_logins' : long
                               },
                  'timezone':unicode,
-                 'timespan':unicode,
                  'suspended_at':datetime.datetime,
                  }
     use_dot_notation=True
@@ -57,7 +55,7 @@ class User(Document):
         
         username = normalize(username)
         user = User()
-        user.access = [username]
+        user.roles = [username]
         user['_id'] = username
         user.password = hashlib.sha1(password).hexdigest()
         user.created_at = datetime.datetime.utcnow()
@@ -66,14 +64,32 @@ class User(Document):
                         }
         return user
     
+    
+    def add_role(self, role):
+        if not self.get('roles', False):
+            self['roles'] = []
+        
+        if role in self['roles'] :
+            return
+        self['roles'].append(role)
+        
+    def remove_role(self, role):
+        if not self.get('roles', False):
+            self['roles'] = []
+        try :
+            while True:
+                self['roles'].remove(role)
+        except :
+            pass
+        
     def has_role(self, role):
-        if not self.access:
-            return False
+        if not self.get('roles', False):
+            self['roles'] = []
         if isinstance(role, basestring):
-            return role in self.access
+            return role in self['roles']
         else:
             for r in role:
-                if r in self.access:
+                if r in self['roles']:
                     return True
     
     def name(self):
