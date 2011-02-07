@@ -5,7 +5,7 @@ class FlashMiddleware():
         self.request = request
     
     def request_hook(self):
-        assert hasattr(self.request, 'session'), "FlashMiddleware requires SessionMiddleware to be installed."
+#        assert hasattr(self.request, 'session'), "FlashMiddleware requires SessionMiddleware to be installed."
         
         #add a flash member to the request object
         self.request.flash = Flash()
@@ -26,3 +26,4 @@ class FlashMiddleware():
             #required in case we add flash without redirecting
             if len(self.request.flash):
                 view['flash'] = self.request.flash
+                
