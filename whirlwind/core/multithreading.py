@@ -18,12 +18,13 @@ def threaded(method):
     '''
         Makes a regular controller action threaded.
     '''
-    @asynchronous
+#    @asynchronous
     def wrapper(self, *args, **kwargs):
         self._is_threaded = True        
+        self._auto_finish = False
         action = ThreadedAction(method, self, *args, **kwargs)
         ThreadPool.instance().add_task(action.do_work)
-
+#        print "returning from wrapper!"
     return wrapper
 
 
