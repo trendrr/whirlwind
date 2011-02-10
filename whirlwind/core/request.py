@@ -39,6 +39,9 @@ class BaseRequest(RequestHandler):
         
         
     def _get_template_lookup(self) :
+        from whirlwind.view.filters import Cycler
+        Cycler.cycle_registry = {}
+        
         return TemplateLookup(
             directories=[options.template_dir], 
             module_directory=options.mako_modules_dir, 
