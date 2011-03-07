@@ -1,4 +1,4 @@
-var Trendrr = {};
+var Whirlwind = {};
 
 //test for the console..
 if(!(window['console'])){ 
@@ -17,14 +17,14 @@ if(!(window['console'])){
  * 
  * {varName} and has a corresponding value in teh options 
  */
-Trendrr.evalTemplate = function(htmlTemplate, options) {
+Whirlwind.evalTemplate = function(htmlTemplate, options) {
 	var syntax = /(\{(\w+)\})/g; //matches symbols like '{id}'
 	
 	if (!options) {
 		return htmlTemplate;
 	}
 	
-	if (!Trendrr.isString(htmlTemplate)) {
+	if (!Whirlwind.isString(htmlTemplate)) {
 		return htmlTemplate;
 	}
 	htmlTemplate = htmlTemplate.replace('%7B', '{').replace('%7D', '}');
@@ -41,7 +41,7 @@ Trendrr.evalTemplate = function(htmlTemplate, options) {
 };
 
 
-Trendrr.isFunction = function(obj) {
+Whirlwind.isFunction = function(obj) {
 	//console.log("testing is function %o", obj);
 	if (!obj) {
 		return false;
@@ -49,7 +49,7 @@ Trendrr.isFunction = function(obj) {
 	return $.isFunction(obj);
 };
 
-Trendrr.isString= function(obj) {
+Whirlwind.isString= function(obj) {
 	if (!obj) {
 		return false;
 	}
@@ -63,13 +63,11 @@ Trendrr.isString= function(obj) {
 };
 
 
-Trendrr.isNumber = function(obj) {
+Whirlwind.isNumber = function(obj) {
 	return typeof(obj) == 'number';
 };
 
-
-
-Trendrr.isTrue = function(obj) {
+Whirlwind.isTrue = function(obj) {
 	if (!obj) {
 		return false;
 	}
@@ -84,8 +82,7 @@ Trendrr.isTrue = function(obj) {
 	return false;
 }
 
-
-Trendrr.isArray = function(obj) {
+Whirlwind.isArray = function(obj) {
 	if (!obj) {
 		return false;
 	}
@@ -99,21 +96,21 @@ Trendrr.isArray = function(obj) {
  * will successfully parse iso dates of all styles. 
  * 
  */
-Trendrr.toDate = function(date) {
+Whirlwind.toDate = function(date) {
 	if (!date) {
 		return null;
 	} 
 	if (date instanceof Date) {
 		return date;
 	}
-	if (Trendrr.isFunction(date.match) && date.match(/[^0-9]/)) {
+	if (Whirlwind.isFunction(date.match) && date.match(/[^0-9]/)) {
 //		"2010-04-02T18:29:11.976Z"
 		
 		//remove millisecond field if exists.
 		date = date.replace(/\.\d\d\d/, '');
 
 		//formated date..
-		if (Trendrr.stringEndsWith(date,'-00:00') || Trendrr.stringEndsWith(date,'+00:00')) {
+		if (Whirlwind.stringEndsWith(date,'-00:00') || Whirlwind.stringEndsWith(date,'+00:00')) {
 			//we need to fix a date.js bug where +00:00 timezone 
 			//defaults to local time.
 			var dt = date.replace(/[\-\+]{1}00\:00/, "+01:00");
@@ -126,7 +123,7 @@ Trendrr.toDate = function(date) {
 		
 		var d = Date.parse(date);
 		if (d) {
-			if (Trendrr.stringEndsWith(date, 'Z')) {
+			if (Whirlwind.stringEndsWith(date, 'Z')) {
 				//convert to local time.. 
 				d.addMinutes(-new Date().getTimezoneOffset());
 			}	
@@ -153,7 +150,7 @@ Trendrr.toDate = function(date) {
  * 
  * 
  */
-Trendrr.serialize = function(element) {
+Whirlwind.serialize = function(element) {
 	var params = {};
 	$(element).find(':input').each(function(i) {
 		if (!($(this).data('iptrMsgDisplayed')) &&
@@ -161,7 +158,7 @@ Trendrr.serialize = function(element) {
 				(this.checked || /select|textarea/i.test(this.nodeName) ||
 					/text|hidden|password/i.test(this.type))) {
 			if (params[this.name]) {
-				if (!Trendrr.isArray(params[this.name])) {
+				if (!Whirlwind.isArray(params[this.name])) {
 					var tmp = params[this.name];
 					params[this.name] = [];
 					params[this.name].push(tmp);
@@ -182,7 +179,7 @@ Trendrr.serialize = function(element) {
  * or sets the value if passed in
  * returns the value 
  */
-Trendrr.value = function(elem, value) {
+Whirlwind.value = function(elem, value) {
 	if ($(elem).size() == 0)
 		return;
 	var dom = $(elem).get(0)
@@ -209,7 +206,7 @@ Trendrr.value = function(elem, value) {
  * Trendrr.trim(' string '); => 'string'
  * Trendrr.trim('trendrr', 'r'); => 'trend'
  */
-Trendrr.trim = function(str, trim) {
+Whirlwind.trim = function(str, trim) {
 	if (!str) {
 		return str;
 	}
@@ -217,10 +214,10 @@ Trendrr.trim = function(str, trim) {
 		return jQuery.trim(str);
 	}
 	var tmp = str;
-	while(Trendrr.stringStartsWith(tmp, trim)) {
+	while(Whirlwind.stringStartsWith(tmp, trim)) {
 		tmp = tmp.slice(trim.length);
 	}
-	while(Trendrr.stringEndsWith(tmp, trim)) {
+	while(Whirlwind.stringEndsWith(tmp, trim)) {
 		tmp = tmp.slice(0, tmp.length-trim.length);
 	}
 	return tmp;
@@ -238,8 +235,8 @@ Trendrr.trim = function(str, trim) {
  *  			if false will return the updated url
  * clearParams = (default false) if true will clear all url params before the params are applied
  */
-Trendrr.href = function(options) {
-	if (Trendrr.isString(options)) {
+Whirlwind.href = function(options) {
+	if (Whirlwind.isString(options)) {
 		options = {url:options};
 	}
 	var opts = $.extend({
@@ -281,7 +278,7 @@ Trendrr.href = function(options) {
  * must be with the current scrollpane.,
  */
  
-Trendrr.isVisible = function(element) {
+Whirlwind.isVisible = function(element) {
 	if (!element) {
 		return false;
 	}
@@ -298,11 +295,12 @@ Trendrr.isVisible = function(element) {
 	if (elem.hasClass('ui-offscreen')) {
 		return false;
 	}
+	
 	if (elem.closest('.ui-offscreen').size() > 0) {
 		return false;
 	}
 	
-	var measure = Trendrr.measure(elem);
+	var measure = Whirlwind.measure(elem);
 	
 	if ($(document).scrollTop() > (measure.top + measure.height)) {
 		return false;
@@ -323,7 +321,7 @@ Trendrr.isVisible = function(element) {
  * 
  * 
  */
-Trendrr.formatNumber = function(number) {
+Whirlwind.formatNumber = function(number) {
 	var str = '';
 	var unit = '';
 	

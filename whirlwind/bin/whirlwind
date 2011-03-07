@@ -1,0 +1,55 @@
+#!/bin/bash -e
+
+. /lib/lsb/init-functions
+
+if [[ $1 == -c ]]; then
+	CONFIG_FILE=$2
+else
+    CONFIG_FILE=/etc/whirlwind.conf
+fi
+
+if [[ -f $CONFIG_FILE ]]; then
+	. $CONFIG_FILE
+fi
+
+#DAEMON_DIR=/trendrr/WeatherChannelAdmin
+DAEMON=$DAEMON_DIR/main.py
+NAME=whirlwind
+DESC="whirlwind daemon"
+
+test -f $DAEMON || exit 0
+
+case "$1" in
+  start)
+        echo -n "Starting $DESC: "
+        for PORT in ${PORTS[@]}
+		do
+			start-stop-daemon --start --pidfile /var/run/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --startas $DAEMON
+			echo "$NAME $PORT."
+		done
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+        for PORT in ${PORTS[@]}
+		do
+			start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/"$NAME-$PORT".pid
+        	rm -f /var/run/"$NAME-$PORT".pid
+        	echo "$NAME $PORT."
+		done
+        ;;
+  restart)
+        echo -n "Restarting $DESC: "
+        for PORT in ${PORTS[@]}
+		do
+			start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/"$NAME-$PORT".pid
+        	rm -f /var/run/"$NAME-$PORT".pid
+        	start-stop-daemon --start --pidfile /var/run/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --startas $DAEMON
+        	echo "$NAME $PORT."
+		done
+        ;;
+  *)
+        echo "Usage: "$1" {start|stop|restart}"
+        exit 1
+
+esac
+exit 0

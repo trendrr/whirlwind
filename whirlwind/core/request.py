@@ -6,6 +6,7 @@ import re, sys, threading
 from tornado import web
 from urllib import unquote
 from whirlwind.middleware import MiddlewareManager
+from whirlwind.core.log import Log
 
 from tornado import ioloop
 
@@ -188,3 +189,59 @@ class BaseRequest(RequestHandler):
             self.redirect('/404')
         else : # call super.
             self.redirect('/error')
+
+    #helper function to page lists of objects
+    def paged_list(table_class,select=None,sort=None):
+    
+        page = self.get_argument('page',1)
+        page = page if page >= 1 else 1
+        
+        count = self.get_argument('count',10)
+        count = count if count >= 1 else 10
+        
+        if select:
+            if sort:
+                results = table_class.find(select).skip((page-1)*count).limit(count).sort(sort)
+            else:
+                results = table_class.find(select).skip((page-1)*count).limit(count)
+            
+            total = table_class.find(select).count()
+        else:
+            if sort:
+                results = table_class.find().skip((page-1)*count).limit(count).sort(sort)
+            else:
+                results = table_class.find().skip((page-1)*count).limit(count)
+                
+            total = table_class.find().count()
+        
+        return Paginator(results,page,count,total)
+    
+    #delete checked list items
+    def delete_selected(pymongo_collection,feild_name='ids',return_stats=False):
+        ids = self.get_argument(feild_name,[])
+        
+        if len(ids) == 0: return False
+        
+        if not return_stats:
+            pymongo_collection.remove(
+                {'_id':{'$in':ids}
+            })
+            return True
+        else:
+            stats = {
+                'requested':len(ids),
+                'success':0,
+                'failed':0
+            }
+            
+            for id in ids:
+                try:
+                    pymongo_collection.remove({'_id':id},True)
+                    stats['success'] += 1
+                except Exception, ex:
+                    stats['failed'] += 1
+                    Log.error(ex.message)
+        
+            return stats
+        
+        

@@ -1,10 +1,7 @@
-#from tornado import web
-from mako.template import Template
 from whirlwind.core.request import BaseRequest
 from whirlwind.db.mongo import Mongo
-import hashlib
 from application.models.user import User
-import datetime
+import datetime, hashlib
 from tornado.web import authenticated
 from whirlwind.view.decorators import route
 
@@ -22,7 +19,7 @@ class LoginHandler(BaseRequest):
         template_values = {}
         template_values['next'] = self.get_argument('next','/')
         
-        self.render_template('/site/login.html',**template_values)
+        self.render_template('/account/login.html',**template_values)
 
     def post(self):
         username = self.get_argument("username",None)
@@ -74,7 +71,7 @@ class SignupHandler(BaseRequest):
         template_values = {}
         template_values['next'] = self.get_argument('next','/')
         
-        self.render_template('/site/signup.html',**template_values)
+        self.render_template('/account/signup.html',**template_values)
     
     def post(self):
         username = self.get_argument("username",None)
@@ -96,12 +93,6 @@ class SignupHandler(BaseRequest):
         self.flash.info = "Successfully created your account, please log in."
         self.redirect("/login")
         
-        
-        
-        
-        
-    
-
 class PasswordChanger(BaseRequest):
     @authenticated
     def post(self):
