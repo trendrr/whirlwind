@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+<%inherit file="/layouts/htmlPage.html" />
+
+### Template for content pages
+<%def name="body()">
+	<%include file="/shared/flash_messages.html"/>
+	<div id="wrap">
+		<div id="main">
+			<%include file="/shared/header.html"/>
+			<div id="content">
+				<div id="content-inner">
+				<%def name="body_content()">
+					${next.body()}
+				</%def>
+				${body_content()}
+				</div>
+			</div>
+		</div>
+	</div>
+	<%include file="/shared/footer.html"/>
+</%def>

@@ -1,0 +1,38 @@
+# -*- coding: utf-8 -*-
+<%inherit file="/layouts/content.html" />
+
+<%def name="body()">
+<div class="form" style="margin:0 auto 0 auto;width: 250px;">
+	<div class="title">
+		Please Log-in
+	</div>
+	<form action="/login" method="post"> 
+		<input type="hidden" name="next" value="${next}" /> 
+		<div class="field">
+			<label for="username" class="label">
+				Username
+			</label>
+			<div class="input">
+				<input type="text" id="username" name="username"/>
+			</div>
+		</div>
+		
+		<div class="field">
+			<label for="password" class="label">
+				Password
+			</label>
+			<div class="input">
+				<input type="password" id="password" name="password"/>
+			</div>
+		</div>
+		
+		<div class="field">
+			<label for="keep_logged_in"><input type="checkbox" name="keep_logged_in" id="keep_logged_in" /> keep me logged in</label>
+		</div> 
+		
+		<div class="buttons">
+			<input type="submit" value="Login" class="button" />
+		</div>
+	</form>
+</div>
+</%def>

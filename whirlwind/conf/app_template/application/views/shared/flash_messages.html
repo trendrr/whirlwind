@@ -1,0 +1,32 @@
+# -*- coding: utf-8 -*-
+
+% if flash:
+<div id="flash-message" class="flash-message">
+	<div id="flash-message-list"></div>
+</div>
+<script>
+	var message = "<ul id='flash-message-items'>";
+	% if 'error' in flash:
+		% for message in flash['error']:
+			message += "<li class='error'>${message | h}</li>";
+		% endfor
+	% endif
+	% if 'notice' in flash:
+		% for message in flash['notice']:
+			message += "<li class='notice'>${message | h}</li>";
+		% endfor
+	% endif
+	% if 'info' in flash:
+		% for message in flash['info']:
+			message += "<li class='info'>${message | h}</li>";
+		% endfor
+	% endif
+	% if 'success' in flash:
+		% for message in flash['success']:
+			message += "<li class='success'>${message | h}</li>";
+		% endfor
+	% endif
+	message += "</ul>";
+	showNotification(message, '', function(){});
+</script>
+% endif

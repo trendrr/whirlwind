@@ -5,20 +5,23 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<%def name="page_title()">WELCOME!</%def>
+		<%def name="page_title()">Welcome to Whirlwind</%def>
 		<title>
 			${self.page_title()}
 		</title>
 		<meta name="keywords" content="" />
 		<meta name="description" content="" />
-		
-		
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
-		<script src="http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js"></script>	
-		<link rel="stylesheet" type="text/css" href="/static/css/public.css" />
-		
+		<script type="text/javascript" src="/static/js/date.js"></script>
+		<script type="text/javascript" src="/static/js/whirlwind.js"></script>
+		<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+		<!--[if !IE 7]>
+			<style type="text/css">
+				#wrap {display:table;height:100%}
+			</style>
+		<![endif]-->
 		${self.head_tags()}
+		<%def name="head_tags()"></%def>
 	</head>
 	<body>
 		${next.body()}
