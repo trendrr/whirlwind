@@ -128,6 +128,46 @@ class Filters():
         pl = Pluralizer()
         return pl.plural(str)
 
+    '''
+        Does a get on the dict.  will work with dot operator, and not throw an exception
+        returns default if the key doesn't work
+        
+        will also work to reach into lists via integer keys.
+        
+        example:
+        {
+            'key1' : {
+                'subkey' : [{'subsubkey1':9},{}]
+            }
+        }
+        
+        Filters.dict_get('key1.subkey.0.subsubkey1') => 9
+    '''
+    @staticmethod
+    def dict_get(dict, key, default=None):
+        #Surround this with try in case key is None or not a string or something
+        try:
+            keys = key.split(".")
+        except:
+            return default
+        
+        tmp = dict
+        for k in keys :
+            try:
+                tmp = tmp[k]
+            except TypeError:
+                #Issue may be that we have something like '0'. Try converting to a number
+                try:
+                    tmp = tmp[int(k)]
+                except:
+                    #Either couldn't convert or went out of bounds on list
+                    return default
+            except:
+                #Exception other than TypeError probably missing key, so default
+                return default
+        return tmp
+
+
 class Pluralizer():
     #
     # (pattern, search, replace) regex english plural rules tuple
