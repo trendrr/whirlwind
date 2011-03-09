@@ -12,7 +12,6 @@ if [[ -f $CONFIG_FILE ]]; then
 	. $CONFIG_FILE
 fi
 
-#DAEMON_DIR=/trendrr/WeatherChannelAdmin
 DAEMON=$DAEMON_DIR/main.py
 NAME=whirlwind
 DESC="whirlwind daemon"
