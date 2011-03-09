@@ -1,5 +1,5 @@
 from datetime import datetime
-import pytz, sys, re
+import pytz, sys, re, locale
 from dateutil import parser
 try:
     import simplejson
@@ -123,6 +123,14 @@ class Filters():
             url = url[0:32] 
         return url
     
+    @staticmethod
+    def add_commas(val,as_data_type='int',the_locale=locale.LC_ALL):
+        locale.setlocale(the_locale, "")
+        if as_data_type == 'int':
+            return locale.format('%d', int(val), True)
+        else:
+            return val
+        
     @staticmethod
     def pluralize(str):
         pl = Pluralizer()
