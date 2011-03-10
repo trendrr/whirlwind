@@ -3,48 +3,61 @@
 . /lib/lsb/init-functions
 
 if [[ $1 == -c ]]; then
-	CONFIG_FILE=$2
+        CONFIG_FILE=$2
 else
     CONFIG_FILE=/etc/whirlwind.conf
 fi
 
 if [[ -f $CONFIG_FILE ]]; then
-	. $CONFIG_FILE
+        . $CONFIG_FILE
 fi
 
 DAEMON=$DAEMON_DIR/main.py
 NAME=whirlwind
 DESC="whirlwind daemon"
+PAUSEFOR=1
 
 test -f $DAEMON || exit 0
 
 case "$1" in
   start)
-        echo -n "Starting $DESC: "
+        echo "Starting $DESC: "
         for PORT in ${PORTS[@]}
-		do
-			start-stop-daemon --start --pidfile /var/run/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --startas $DAEMON
-			echo "$NAME $PORT."
-		done
+        do
+                DAEMON_OPTS="--port=$PORT"
+                echo -n "on port: $PORT"
+                if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- "$DAEMON_OPTS"; then
+                    log_end_msg 0
+                else
+                    log_end_msg 1
+                fi
+                sleep $PAUSEFOR
+        done
         ;;
   stop)
-        echo -n "Stopping $DESC: "
+        echo "Stopping $DESC: "
         for PORT in ${PORTS[@]}
-		do
-			start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/"$NAME-$PORT".pid
-        	rm -f /var/run/"$NAME-$PORT".pid
-        	echo "$NAME $PORT."
-		done
+        do
+                start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/whirlwind/"$NAME-$PORT".pid
+                rm -f /var/run/"$NAME-$PORT".pid
+                echo "$NAME $PORT."
+        done
         ;;
   restart)
-        echo -n "Restarting $DESC: "
+        echo "Restarting $DESC: "
         for PORT in ${PORTS[@]}
-		do
-			start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/"$NAME-$PORT".pid
-        	rm -f /var/run/"$NAME-$PORT".pid
-        	start-stop-daemon --start --pidfile /var/run/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --startas $DAEMON
-        	echo "$NAME $PORT."
-		done
+        do
+                start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/whirlwind/"$NAME-$PORT".pid
+                rm -f /var/run/whirlwind/"$NAME-$PORT".pid
+                DAEMON_OPTS="--port=$PORT"
+                echo -n "on port: $PORT"
+                if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- "$DAEMON_OPTS"; then
+                        log_end_msg 0
+                else
+                        log_end_msg 1
+                fi
+                sleep $PAUSEFOR
+        done
         ;;
   *)
         echo "Usage: "$1" {start|stop|restart}"
@@ -52,3 +65,4 @@ case "$1" in
 
 esac
 exit 0
+        
