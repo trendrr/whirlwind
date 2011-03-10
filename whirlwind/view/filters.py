@@ -128,6 +128,8 @@ class Filters():
         locale.setlocale(the_locale, "")
         if as_data_type == 'int':
             return locale.format('%d', int(val), True)
+        elif as_data_type == 'float':
+            return locale.format('%f', float(val), True)
         else:
             return val
         

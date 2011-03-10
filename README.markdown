@@ -5,9 +5,6 @@
 ### install python dev
 `sudo apt-get install python-dev`
 
-### install tornado, follow instructions on:
-http://www.tornadoweb.org/documentation#download
-
 ### install the python setup tools
 `sudo apt-get install python-setuptools`
 
@@ -16,23 +13,55 @@ http://www.tornadoweb.org/documentation#download
 
 ### install required python modules
 <pre>
+sudo easy_install tornado
 sudo easy_install Mako
 sudo easy_install MongoKit
 sudo easy_install python-dateutil
 sudo easy_install pytz
 </pre>
 
-### install whirlwind
-`download a copy of whirlwind from https://github.com/trendrr/whirlwind/ or alternately clone a copy of the git repo`
- 
-### untar/unzip archive
-`tar -xzf trendrr-whirlwind-5c17ff8.tar.gz`
+### clone whirlwind
+`git clone git://github.com/trendrr/whirlwind.git`
 
 ### change to whirlwind directory
 `cd whirlwind`
 
 ### run the setup script
 `sudo python setup.py install`
+
+
+## On Windows
+
+### download and install python
+http://www.python.org/download/
+
+### download and install setup tools
+http://pypi.python.org/pypi/setuptools#files
+
+### upgrade setuptools
+`easy_install -U setuptools`
+
+### install required python modules
+<pre>
+easy_install tornado
+easy_install Mako
+easy_install MongoKit
+easy_install python-dateutil
+easy_install pytz
+</pre>
+
+### clone whirlwind
+`git clone git://github.com/trendrr/whirlwind.git`
+
+### change to whirlwind directory
+`cd whirlwind`
+
+### run the setup script
+`python setup.py install`
+
+------------------------------------------------------------------
+
+## Now whirlwind is installed
 
 ### to create a whirlwind app
 `whirlwind-admin.py --create-application myapp`

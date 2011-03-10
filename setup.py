@@ -80,7 +80,7 @@ setup(
     cmdclass = cmdclasses,
     data_files = data_files,
     scripts = ['whirlwind/bin/whirlwind-admin.py'],
-    classifiers = ['Development Status :: 2 - Pre-Alpha',
+    classifiers = ['Development Status :: 4 - Beta',
                    'Environment :: Web Environment',
                    'Framework :: WhirlWind',
                    'Intended Audience :: Developers',
