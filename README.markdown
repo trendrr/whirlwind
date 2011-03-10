@@ -3,13 +3,19 @@
 ## On Ubuntu (recommended)
 
 ### install python dev
-`sudo apt-get install python-dev`
+<pre>
+sudo apt-get install python-dev
+</pre>
 
 ### install the python setup tools
-`sudo apt-get install python-setuptools`
+<pre>
+sudo apt-get install python-setuptools
+</pre>
 
 ### upgrade setuptools
-`sudo easy_install -U setuptools`
+<pre>
+sudo easy_install -U setuptools
+</pre>
 
 ### install required python modules
 <pre>
@@ -21,25 +27,37 @@ sudo easy_install pytz
 </pre>
 
 ### clone whirlwind
-`git clone git://github.com/trendrr/whirlwind.git`
+<pre>
+git clone git://github.com/trendrr/whirlwind.git
+</pre>
 
 ### change to whirlwind directory
-`cd whirlwind`
+<pre>
+cd whirlwind
+</pre>
 
 ### run the setup script
-`sudo python setup.py install`
+<pre>
+sudo python setup.py install
+</pre>
 
 
 ## On Windows
 
 ### download and install python
+<pre>
 http://www.python.org/download/
+</pre>
 
 ### download and install setup tools
+<pre>
 http://pypi.python.org/pypi/setuptools#files
+</pre>
 
 ### upgrade setuptools
-`easy_install -U setuptools`
+<pre>
+easy_install -U setuptools
+</pre>
 
 ### install required python modules
 <pre>
@@ -51,20 +69,28 @@ easy_install pytz
 </pre>
 
 ### clone whirlwind
-`git clone git://github.com/trendrr/whirlwind.git`
+<pre>
+git clone git://github.com/trendrr/whirlwind.git
+</pre>
 
 ### change to whirlwind directory
-`cd whirlwind`
+<pre>
+cd whirlwind
+</pre>
 
 ### run the setup script
-`python setup.py install`
+<pre>
+python setup.py install
+</pre>
 
 ------------------------------------------------------------------
 
 ## Now whirlwind is installed
 
 ### to create a whirlwind app
-`whirlwind-admin.py --create-application myapp`
+<pre>
+whirlwind-admin.py --create-application myapp
+</pre>
 
 ### fill in env specific settings in settings file [config/settings.py]
 <pre>
@@ -73,4 +99,6 @@ whirlwind-admin.py --gcs
 </pre>
 
 ### to start app
-`python main.py`
+<pre>
+python main.py
+</pre>
