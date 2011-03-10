@@ -83,8 +83,6 @@ cd whirlwind
 python setup.py install
 </pre>
 
-------------------------------------------------------------------
-
 ## Now whirlwind is installed
 
 ### to create a whirlwind app
