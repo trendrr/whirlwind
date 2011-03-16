@@ -3,5 +3,5 @@
 
 #  will choose the FIRST match it comes too
 route_list = [
-    #(r'/', site_controller.IndexHandler),
+	#(r'.*', error_controller.ErrorHandler), #catch all error handler
 ]
