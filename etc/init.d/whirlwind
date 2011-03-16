@@ -16,6 +16,7 @@ DAEMON=$DAEMON_DIR/main.py
 NAME=whirlwind
 DESC="whirlwind daemon"
 PAUSEFOR=1
+LOGFILE=/var/log/whirlwind/whirlwind.log
 
 test -f $DAEMON || exit 0
 
@@ -24,7 +25,7 @@ case "$1" in
         echo "Starting $DESC: "
         for PORT in ${PORTS[@]}
         do
-                DAEMON_OPTS="--port=$PORT"
+                DAEMON_OPTS="--port=$PORT > $LOGFILE 2>&1"
                 echo -n "on port: $PORT"
                 if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- "$DAEMON_OPTS"; then
                     log_end_msg 0
@@ -49,7 +50,7 @@ case "$1" in
         do
                 start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/whirlwind/"$NAME-$PORT".pid
                 rm -f /var/run/whirlwind/"$NAME-$PORT".pid
-                DAEMON_OPTS="--port=$PORT"
+                DAEMON_OPTS="--port=$PORT > $LOGFILE 2>&1"
                 echo -n "on port: $PORT"
                 if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- "$DAEMON_OPTS"; then
                         log_end_msg 0
