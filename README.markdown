@@ -100,3 +100,8 @@ whirlwind-admin.py --gcs
 <pre>
 python main.py
 </pre>
+
+### thats it! now just point your browser to the app start page to see whirlwind in action. 
+<pre>
+http://localhost:8000/
+</pre>
