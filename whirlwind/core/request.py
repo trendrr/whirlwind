@@ -2,12 +2,11 @@ from tornado.web import RequestHandler, HTTPError
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from tornado.options import options
-import re, sys, threading, os, httplib
-from tornado import web
+import re, sys, threading, os, httplib, tornado.web
 from urllib import unquote
 from whirlwind.middleware import MiddlewareManager
 from whirlwind.core.log import Log
-
+from tornado.web import ErrorHandler
 from tornado import ioloop
 
 class BaseRequest(RequestHandler):
@@ -179,16 +178,9 @@ class BaseRequest(RequestHandler):
         
         RequestHandler.write(self, chunk)
     
-    def get_error_html(self, status_code, **kwargs): 
-        print 'GOT ERROR: ', status_code
-        
-        if kwargs.has_key('exception'):
-            print kwargs['exception']
-        
-        if status_code == 404 :
-            self.redirect('/404')
-        else : # call super.
-            self.redirect('/error')
+    def get_error_html(self, status_code, **kwargs):
+        error_handler = WhirlwindErrorHandler(self.application, self.request, status_code=status_code)
+        return error_handler.get_error_html(status_code, **kwargs) 
 
     #helper function to page lists of objects
     def paged_list(table_class,select=None,sort=None):
@@ -243,18 +235,12 @@ class BaseRequest(RequestHandler):
                     Log.error(ex.message)
         
             return stats
-        
-        
-class ErrorHandler(tornado.web.RequestHandler):
-    """Generates an error response with status_code for all requests."""
-    def __init__(self, application, request, status_code):
-        tornado.web.RequestHandler.__init__(self, application, request)
-        self.set_status(status_code)
-    
+
+class WhirlwindErrorHandler(ErrorHandler):
     def get_error_html(self, status_code, **kwargs):
         self.require_setting("static_path")
         if status_code in [404, 500, 503, 403]:
-            filename = os.path.join(self.settings['static_path'], '%d.html' % status_code)
+            filename = os.path.join(self.settings['static_path'], 'errors/%d.html' % status_code)
             if os.path.exists(filename):
                 f = open(filename, 'r')
                 data = f.read()
@@ -265,8 +251,5 @@ class ErrorHandler(tornado.web.RequestHandler):
             "code": status_code,
             "message": httplib.responses[status_code],
         }
-    
-    def prepare(self):
-        raise tornado.web.HTTPError(self._status_code)
-       
-tornado.web.ErrorHandler = ErrorHandler
+
+tornado.web.ErrorHandler = WhirlwindErrorHandler
