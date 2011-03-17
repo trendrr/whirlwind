@@ -118,7 +118,8 @@ class Filters():
     def url_pretty(str):
         if not str :
             return
-        url = re.sub(r'[^0-9a-zA-Z]', '_',str)
+
+        url = re.sub(r'[^0-9a-zA-Z]', '_',Filters.str(str))
         url = re.sub('_+', '_',url)
         #max 32 chars.
         if len(url) > 32 :
