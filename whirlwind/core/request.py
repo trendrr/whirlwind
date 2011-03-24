@@ -1,3 +1,4 @@
+from tornado.web import _unicode
 from tornado.web import RequestHandler, HTTPError
 from mako.template import Template
 from mako.lookup import TemplateLookup
@@ -163,7 +164,7 @@ class BaseRequest(RequestHandler):
     def _cleanup_param(self, val, strip=True):
         # Get rid of any weird control chars
         value = re.sub(r"[\x00-\x08\x0e-\x1f]", " ", val)
-        value = web._unicode(value)
+        value = _unicode(value)
         if strip: value = value.strip()
         return unquote(value)   
     
