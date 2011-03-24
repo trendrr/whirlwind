@@ -8,6 +8,7 @@ from whirlwind.middleware import MiddlewareManager
 from whirlwind.core.log import Log
 from tornado.web import ErrorHandler
 from tornado import ioloop
+from pymongo import *
 
 class BaseRequest(RequestHandler):
     
@@ -183,13 +184,23 @@ class BaseRequest(RequestHandler):
         return error_handler.get_error_html(status_code, **kwargs) 
 
     #helper function to page lists of objects
-    def paged_list(table_class,select=None,sort=None):
+    def paged_list(table_class,select=None):
     
         page = self.get_argument('page',1)
         page = page if page >= 1 else 1
         
         count = self.get_argument('count',10)
         count = count if count >= 1 else 10
+        
+        sort = None
+        order_by = self.get_argument('order_by',None)
+        
+        if order_by:
+            order = self.get_argument('order',None)
+            order = pymongo.DESCENDING if order.lower() == 'desc' else pymongo.ASCENDING
+            sort = {
+                order:order_by
+            }
         
         if select:
             if sort:
