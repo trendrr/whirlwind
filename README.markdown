@@ -3,7 +3,7 @@ The goal of whirlwind is to provide an easy to use python framework built on top
 
 Take a look at our wiki for docs and more info. 
 
-# Setup instructions
+## Setup instructions
 
 ## On Ubuntu (recommended)
 
