@@ -3,6 +3,8 @@ from tornado.web import RequestHandler, HTTPError
 from mako.template import Template
 from mako.lookup import TemplateLookup
 from tornado.options import options
+from tornado import escape
+import datetime
 import re, sys, threading, os, httplib, tornado.web
 from urllib import unquote
 from whirlwind.middleware import MiddlewareManager
@@ -57,18 +59,34 @@ class BaseRequest(RequestHandler):
     def render_template(self,template_name, **kwargs):
         lookup = self._get_template_lookup()
         new_template = lookup.get_template(template_name)
-           
-        #add all the standard variables.
-        kwargs['current_user'] = self.get_current_user()
-        kwargs['render_as'] = self.get_argument('render_as', 'html')
-        
-        kwargs['is_logged_in'] = False
-        if kwargs['current_user'] != None:
-             kwargs['is_logged_in'] = True
-        
-        # allows us access to the request from within the template..
-        kwargs['request'] = self.request
-        
+
+        tornado_args = {
+            "_": self.locale.translate,
+            "current_user": self.get_current_user(),
+            "datetime": datetime,
+            "escape": escape.xhtml_escape,
+            "handler": self,
+            "json_encode": escape.json_encode,
+            "linkify": escape.linkify,
+            "locale": self.locale,
+            "request": self.request,
+            "reverse_url": self.application.reverse_url,
+            "squeeze": escape.squeeze,
+            "static_url": self.static_url,
+            "url_escape": escape.url_escape,
+            "xhtml_escape": escape.xhtml_escape,
+            "xsrf_form_html": self.xsrf_form_html
+        }
+        tornado_args.update(self.ui)
+
+        whirlwind_args = {
+            "is_logged_in": self.get_current_user() != None
+            "render_as": self.get_argument("render_as", "html"),
+        }
+
+        kwargs.update(whirlwind_args)
+        kwargs.update(tornado_args)
+
         self.middleware_manager.run_view_hooks(view=kwargs)
         
         self.finish(new_template.render(**kwargs))
