@@ -184,25 +184,96 @@ class BaseRequest(RequestHandler):
         error_handler = WhirlwindErrorHandler(self.application, self.request, status_code=status_code)
         return error_handler.get_error_html(status_code, **kwargs) 
 
-    #helper function to page lists of objects
-    def paged_list(table_class,select=None):
+class WhirlwindErrorHandler(ErrorHandler):
+    def get_error_html(self, status_code, **kwargs):
+        self.require_setting("static_path")
+        if status_code in [404, 500, 503, 403]:
+            filename = os.path.join(self.settings['static_path'], 'errors/%d.html' % status_code)
+            if os.path.exists(filename):
+                f = open(filename, 'r')
+                data = f.read()
+                f.close()
+                return data
+        return "<html><title>%(code)d: %(message)s</title>" \
+                "<body class='bodyErrorPage'>%(code)d: %(message)s</body></html>" % {
+            "code": status_code,
+            "message": httplib.responses[status_code],
+        }
+
+tornado.web.ErrorHandler = WhirlwindErrorHandler
+
+
+class RequestHelpers(Object):
+    '''
+    helper function to get chunks of large collections
     
-        page = self.get_argument('page',1)
-        page = page if page >= 1 else 1
+    more efficient approach when paging large collections as long as 
+    your using the standard automaticly generated mongo document _id
+    
+    PLEASE NOTE 
+        only supports sorting by _id column
         
-        count = self.get_argument('count',10)
+    '''
+    @staticmethod
+    def sliced_list(handler, table_class,select={}):
+        max_id = handler.get_argument('max_id',False)
+        min_id = handler.get_argument('min_id',False)
+        
+        if not max_id and not min_id:
+            return False
+            
+        count = handler.get_argument('count',10)
         count = count if count >= 1 else 10
         
         sort = None
-        order_by = self.get_argument('order_by',None)
         
         if order_by:
-            order = self.get_argument('order',None)
+            order = handler.get_argument('order',None)
+            order = pymongo.DESCENDING if order.lower() == 'desc' else pymongo.ASCENDING
+            sort = {
+                order:'_id'
+            }
+        
+        original_select = select
+        if max_id != False:
+            select['_id'] = {'$gt' : max_id}
+        elif self.get_argument('min_id',False):
+            select['_id'] = {'$lt' : min_id}
+         
+        if sort:
+            results = table_class.find(select).limit(count).sort(sort)
+        else:
+            results = table_class.find(select).limit(count)
+        
+        total = table_class.find(original_select).count()
+       
+        return [results,total]
+
+    '''
+    helper function to page lists of objects
+    
+    not as effient as paging by ids but is fine as long as your not paging large collections
+    you must use this method if your using non standard document _ids 
+    '''
+    @staticmethod
+    def paged_list(handler,table_class,select=None):
+    
+        page = handler.get_argument('page',1)
+        page = page if page >= 1 else 1
+        
+        count = handler.get_argument('count',10)
+        count = count if count >= 1 else 10
+        
+        sort = None
+        order_by = handler.get_argument('order_by',None)
+        
+        if order_by:
+            order = handler.get_argument('order',None)
             order = pymongo.DESCENDING if order.lower() == 'desc' else pymongo.ASCENDING
             sort = {
                 order:order_by
             }
-        
+         
         if select:
             if sort:
                 results = table_class.find(select).skip((page-1)*count).limit(count).sort(sort)
@@ -221,8 +292,9 @@ class BaseRequest(RequestHandler):
         return Paginator(results,page,count,total)
     
     #delete checked list items
-    def delete_selected(pymongo_collection,feild_name='ids',return_stats=False):
-        ids = self.get_argument(feild_name,[])
+    @staticmethod
+    def delete_selected(handler,pymongo_collection,feild_name='ids',return_stats=False):
+        ids = handler.get_argument(feild_name,[])
         
         if len(ids) == 0: return False
         
@@ -247,21 +319,3 @@ class BaseRequest(RequestHandler):
                     Log.error(ex.message)
         
             return stats
-
-class WhirlwindErrorHandler(ErrorHandler):
-    def get_error_html(self, status_code, **kwargs):
-        self.require_setting("static_path")
-        if status_code in [404, 500, 503, 403]:
-            filename = os.path.join(self.settings['static_path'], 'errors/%d.html' % status_code)
-            if os.path.exists(filename):
-                f = open(filename, 'r')
-                data = f.read()
-                f.close()
-                return data
-        return "<html><title>%(code)d: %(message)s</title>" \
-                "<body class='bodyErrorPage'>%(code)d: %(message)s</body></html>" % {
-            "code": status_code,
-            "message": httplib.responses[status_code],
-        }
-
-tornado.web.ErrorHandler = WhirlwindErrorHandler
