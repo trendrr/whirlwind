@@ -1,2 +1,2 @@
 def get_version():
-    return "0.1 Pre Alpha"
+    return "0.4 Beta"

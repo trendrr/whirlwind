@@ -71,11 +71,11 @@ version = __import__('whirlwind').get_version()
 setup(
     name = "WhirlWind",
     version = version.replace(' ', '-'),
-    url = 'http://labs.trendrr.com/whirlwind/',
+    url = 'https://github.com/trendrr/whirlwind',
     author = 'Trendrr',
     author_email = 'admin@trendrr.com',
     description = 'A highly scaleable Python Web framework.',
-    download_url = 'https://github.com/trendrr/whirlwind',
+    download_url = 'https://github.com/trendrr/whirlwind/tarball/master',
     packages = packages,
     cmdclass = cmdclasses,
     data_files = data_files,
