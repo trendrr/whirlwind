@@ -80,8 +80,8 @@ class BaseRequest(RequestHandler):
         tornado_args.update(self.ui)
 
         whirlwind_args = {
-            "is_logged_in": self.get_current_user() != None
-            "render_as": self.get_argument("render_as", "html"),
+            "is_logged_in": self.get_current_user() != None,
+            "render_as": self.get_argument("render_as", "html")
         }
 
         kwargs.update(whirlwind_args)
@@ -233,7 +233,7 @@ class RequestHelpers(Object):
         
     '''
     @staticmethod
-    def sliced_list(handler, table_class,select={}):
+    def ranged_list(handler, table_class,select={}):
         max_id = handler.get_argument('max_id',False)
         min_id = handler.get_argument('min_id',False)
         
