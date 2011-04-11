@@ -221,7 +221,7 @@ class WhirlwindErrorHandler(ErrorHandler):
 tornado.web.ErrorHandler = WhirlwindErrorHandler
 
 
-class RequestHelpers(Object):
+class RequestHelpers(object):
     '''
     helper function to get chunks of large collections
     
