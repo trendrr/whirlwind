@@ -1,3 +1,5 @@
+from whirlrind.core.log import Log
+
 class Paginator(object):
 
     def __init__(self, collection, page_number=0, limit=20, total=-1):
@@ -13,7 +15,7 @@ class Paginator(object):
         try:
             return self.collection[start:end]
         except Exception as detail:
-            print detail
+            Log.warning(detail)
             return []
     
     @property
@@ -34,7 +36,12 @@ class Paginator(object):
     
     @property
     def has_next(self):
-        return True if (len(self.page) == self.limit) else False
+        try:
+            self.page.rewind()
+        except Exception as detail:
+            Log.warning(detail)
+            
+        return True if (self.page.count(True) == self.limit) else False
     
     @property
     def previous_page(self):
@@ -58,8 +65,8 @@ class Paginator(object):
         #check if there is a query string
         if url.find('?') != -1:
             if re.search(r'page=\d',url) != None:
-                page_str = "&page=%d" % page_num
-                return re.sub(r'&page=\d+', page_str, url)
+                page_str = "page=%d" % page_num
+                return re.sub(r'page=\d+', page_str, url)
             else:
                 return "%s&page=%d" % (url, page_num)
             
