@@ -1,4 +1,4 @@
-from whirlrind.core.log import Log
+from whirlwind.core.log import Log
 
 class Paginator(object):
 
