@@ -40,7 +40,7 @@ case "$1" in
         for PORT in ${PORTS[@]}
         do
                 start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/whirlwind/"$NAME-$PORT".pid
-                rm -f /var/run/"$NAME-$PORT".pid
+                rm -f /var/run/whirlwind/"$NAME-$PORT".pid
                 echo "$NAME $PORT."
         done
         ;;
