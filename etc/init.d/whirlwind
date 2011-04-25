@@ -25,9 +25,9 @@ case "$1" in
         echo "Starting $DESC: "
         for PORT in ${PORTS[@]}
         do
-                DAEMON_OPTS="--port=$PORT > $LOGFILE 2>&1"
+                DAEMON_OPTS="--log_file_prefix=/var/log/whirlwind/whirlwind-$PORT.log  --port=$PORT"
                 echo -n "on port: $PORT"
-                if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- "$DAEMON_OPTS"; then
+                if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile  --background --exec $DAEMON -- $DAEMON_OPTS; then
                     log_end_msg 0
                 else
                     log_end_msg 1
@@ -50,9 +50,9 @@ case "$1" in
         do
                 start-stop-daemon --stop --quiet --oknodo --pidfile /var/run/whirlwind/"$NAME-$PORT".pid
                 rm -f /var/run/whirlwind/"$NAME-$PORT".pid
-                DAEMON_OPTS="--port=$PORT > $LOGFILE 2>&1"
+                DAEMON_OPTS="--log_file_prefix=/var/log/whirlwind/whirlwind-$PORT.log  --port=$PORT"
                 echo -n "on port: $PORT"
-                if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- "$DAEMON_OPTS"; then
+                if start-stop-daemon --start --pidfile /var/run/whirlwind/"$NAME-$PORT".pid --chdir $DAEMON_DIR --make-pidfile --background --exec $DAEMON -- $DAEMON_OPTS; then
                         log_end_msg 0
                 else
                         log_end_msg 1
@@ -66,4 +66,3 @@ case "$1" in
 
 esac
 exit 0
-        
