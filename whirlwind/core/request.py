@@ -12,6 +12,8 @@ from whirlwind.core.log import Log
 from tornado.web import ErrorHandler
 from tornado import ioloop
 from pymongo import *
+from whirlwind.view.filters import Filters
+
 
 class BaseRequest(RequestHandler):
     
@@ -81,7 +83,8 @@ class BaseRequest(RequestHandler):
 
         whirlwind_args = {
             "is_logged_in": self.get_current_user() != None,
-            "render_as": self.get_argument("render_as", "html")
+            "render_as": self.get_argument("render_as", "html"),
+            "dict_get" : Filters.dict_get
         }
 
         kwargs.update(whirlwind_args)
