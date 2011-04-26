@@ -90,6 +90,48 @@ Whirlwind.isArray = function(obj) {
 };
 
 /**
+ * Parses an iso date.
+ * 
+ * works with most (all?) iso format variations
+ * 2011-04-25T20:59:59.999-07:00
+ * 2011-04-25T20:59:59+07:00
+ * 2011-04-25T20:59:59Z
+ * 
+ */
+Whirlwind.parseISODate = function(string) {
+//	http://webcloud.se/log/JavaScript-and-ISO-8601/
+	//Fixed the incorrect escaping from the original blog post.
+    var regexp = "([0-9]{4})(\\-([0-9]{2})(\\-([0-9]{2})" +
+	    "(T([0-9]{2}):([0-9]{2})(\\:([0-9]{2})(\\.([0-9]+))?)?" +
+	    "(Z|(([\\-\\+])([0-9]{2})\\:?([0-9]{2})))?)?)?)?";
+	var d = string.match(new RegExp(regexp));
+	if (d == null || d.length == 0) {
+		return null;
+	}
+	var offset = 0;
+	var date = new Date(d[1], 0, 1);
+	
+	if (d[3]) { date.setMonth(d[3] - 1); }
+	if (d[5]) { date.setDate(d[5]); }
+	if (d[7]) { date.setHours(d[7]); }
+	if (d[8]) { date.setMinutes(d[8]); }
+	if (d[10]) { date.setSeconds(d[10]); }
+	
+	if (d[12]) { date.setMilliseconds(Number("0." + d[12]) * 1000); }
+	
+	if (d[14]) {
+	    offset = (Number(d[16]) * 60) + Number(d[17]);
+	    console.log(offset);
+	    offset *= ((d[15] == '-') ? 1 : -1);
+	}
+	
+	offset -= date.getTimezoneOffset();
+	time = (Number(date) + (offset * 60 * 1000));
+	return new Date(Number(time));
+}
+
+
+/**
  * Will convert passed in element to a date (when possible)
  * 
  * this requires the date.js to work.
@@ -103,44 +145,13 @@ Whirlwind.toDate = function(date) {
 	if (date instanceof Date) {
 		return date;
 	}
-	if (Whirlwind.isFunction(date.match) && date.match(/[^0-9]/)) {
-//		"2010-04-02T18:29:11.976Z"
-		
-		//remove millisecond field if exists.
-		date = date.replace(/\.\d\d\d/, '');
-
-		//formated date..
-		if (Whirlwind.stringEndsWith(date,'-00:00') || Whirlwind.stringEndsWith(date,'+00:00')) {
-			//we need to fix a date.js bug where +00:00 timezone 
-			//defaults to local time.
-			var dt = date.replace(/[\-\+]{1}00\:00/, "+01:00");
-			console.log(dt);
-			var d = Date.parse(dt);
-			if (d) {
-				return d.addHours(1);
-			}
-		}
-		
-		var d = Date.parse(date);
-		if (d) {
-			if (Whirlwind.stringEndsWith(date, 'Z')) {
-				//convert to local time.. 
-				d.addMinutes(-new Date().getTimezoneOffset());
-			}	
-			
-			return d;
-		}
-		if (!d) {
-			//twitter date..
-			d = Date.parseExact(date, 'E, dd NNN yyyy HH:mm:ss Z');
-			if (d) {
-				return d;
-			}	
-		}
-		
-	} else {
-		return new Date(date *1000);
+	
+	//ISO date from above
+	var d = Whirlwind.parseISODate(date);
+	if (d) {
+		return d;
 	}
+	return new Date(date *1000);
 };
 
 
