@@ -25,6 +25,7 @@ class BaseRequest(RequestHandler):
         self.middleware_manager = MiddlewareManager(self)
         self._is_threaded = False
         self._is_whirlwind_finished = False
+        self.view = {}
     
     def template_exists(self, template_name):
         tmp = self.__template_exists_cache.get(template_name, None)
@@ -89,7 +90,8 @@ class BaseRequest(RequestHandler):
 
         kwargs.update(whirlwind_args)
         kwargs.update(tornado_args)
-
+        kwargs.update(self.view)
+        
         self.middleware_manager.run_view_hooks(view=kwargs)
         
         self.finish(new_template.render(**kwargs))
