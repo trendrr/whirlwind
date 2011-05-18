@@ -42,7 +42,8 @@ class Mongo(object):
     def create(**kwargs):
         db = Mongo()
         db.connection = Connection(kwargs['host'],kwargs['port'])
-        if 'debug' in kwargs:
-            print mongodb.mongo.connection
         Mongo.db = db
+        if 'debug' in kwargs:
+            print Mongo.db.connection
+       
         
