@@ -25,7 +25,7 @@ class BaseRequest(RequestHandler):
         self.middleware_manager = MiddlewareManager(self)
         self._is_threaded = False
         self._is_whirlwind_finished = False
-        self.view = {}
+        self.view = dotdict()
     
     def template_exists(self, template_name):
         tmp = self.__template_exists_cache.get(template_name, None)
