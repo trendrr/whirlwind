@@ -13,6 +13,7 @@ from tornado.web import ErrorHandler
 from tornado import ioloop
 from pymongo import *
 from whirlwind.view.filters import Filters
+from whirlwind.core import dotdict
 
 
 class BaseRequest(RequestHandler):
