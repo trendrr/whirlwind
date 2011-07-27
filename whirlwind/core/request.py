@@ -46,18 +46,23 @@ class BaseRequest(RequestHandler):
         return False
         
         
-    def _get_template_lookup(self) :
+    def _get_template_lookup(self,extra_imports=None) :
         from whirlwind.view.filters import Cycler
         Cycler.cycle_registry = {}
+        
+        filter_imports=[
+            'from whirlwind.view.filters import Filters, Cycler',
+        ]
+        
+        if extra_imports:
+            filter_imports.extend(extra_imports)
         
         return TemplateLookup(
             directories=[options.template_dir], 
             module_directory=options.mako_modules_dir, 
             output_encoding='utf-8', 
             encoding_errors='replace',
-            imports=[
-                'from whirlwind.view.filters import Filters, Cycler',
-            ]
+            imports=filter_imports
         )
         
     def render_template(self,template_name, **kwargs):
