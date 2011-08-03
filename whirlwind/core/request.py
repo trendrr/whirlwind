@@ -14,7 +14,7 @@ from tornado import ioloop
 from pymongo import *
 from whirlwind.view.filters import Filters
 from whirlwind.core import dotdict
-
+from whirlwind.db.mongo import Mongo
 
 class BaseRequest(RequestHandler):
     
@@ -27,6 +27,7 @@ class BaseRequest(RequestHandler):
         self._is_threaded = False
         self._is_whirlwind_finished = False
         self.view = dotdict()
+        self.db = Mongo.db.ui
     
     def template_exists(self, template_name):
         tmp = self.__template_exists_cache.get(template_name, None)

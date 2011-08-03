@@ -25,7 +25,7 @@ class Mongo(object):
     '''
     def register_models(self,models):
         self.connection.register(models)
-       
+    
     '''
         Accessor for ui specific database.
     '''   
