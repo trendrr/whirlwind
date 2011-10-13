@@ -32,3 +32,9 @@ define("middleware_classes", default="", help="placeholder for the middleware_cl
 
 define("log", default="", help="the logfile")
 
+define("redis_host", default=None)
+
+define("redis_port", default=6379, type=int)
+
+define("redis_db", default=0, type=int)
+

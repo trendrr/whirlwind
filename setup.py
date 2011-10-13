@@ -74,7 +74,7 @@ setup(
     url = 'https://github.com/trendrr/whirlwind',
     author = 'Trendrr',
     author_email = 'admin@trendrr.com',
-    description = 'A highly scaleable Python Web framework.',
+    description = 'A highly scaleable Python web framework.',
     download_url = 'https://github.com/trendrr/whirlwind/tarball/master',
     packages = packages,
     cmdclass = cmdclasses,
