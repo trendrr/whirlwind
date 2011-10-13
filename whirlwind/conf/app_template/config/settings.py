@@ -27,12 +27,30 @@ db_host = 'localhost'
 db_port = 27017
 
 #define the database name
-db_name = 'test'
+db_name = 'whirlwind'
+
+#uncomment the following if when using redis session middleware
+
+#redis host
+#redis_host = 'localhost'
+
+#redis port
+#redis_port = 6379
+
+#redis db name
+#redis_db = 'whirlwind'
+
+#uncomment the following when using memcache session middleware
+
+#memcache host
+#memcache_host = 'localhost'
 
 #you must define a cookie secret. you can use whirlwind-admin.py --generate-cookie-secret
 cookie_secret = "setthistoyourowncookiesecret"
 
 middleware_classes = [
     "whirlwind.middleware.flash.middleware.FlashMiddleware",
-    "whirlwind.middleware.session.middleware.SessionMiddleware"
+    "whirlwind.middleware.session.middleware.SessionMiddleware",
+    #"whirlwind.middleware.session.redis.middleware.SessionMiddleware"
+    #"whirlwind.middleware.session.memcache.middleware.SessionMiddleware"
 ]
