@@ -1,4 +1,4 @@
-from whirlwind.middleware.redis_session import Session
+from whirlwind.middleware.session import Session
 
 class SessionMiddleware():
     def __init__(self,request):
