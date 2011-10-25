@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+/* Start Layout */
+#wrap {min-height: 100%;}
+
+#main {
+	overflow:auto;
+	padding-bottom: 55px;
+}  /* must be same height as the footer */
+
+#footer {
+	position: relative;
+	margin-top: -55px; /* negative value of footer height */
+	height: 55px;
+	clear:both;
+	background-color: #EBEFF9;
+}
+
+#footer-inner{
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#header{
+	height: 40px;
+	background-color: #EBEFF9;
+}
+
+#header-inner{
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#logo{
+	float: left;
+	margin-top: 5px;
+	width: 200px;
+}
+
+#user-menu{
+	float: right;
+	text-align: center;
+	width: 200px;
+	padding: 5px;
+	font-size: 12px;
+	background: white;
+	font-weight: bold;
+}
+
+#content{
+	margin-top: 20px;
+}
+
+#content-inner{
+	width: 900px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#copyright{
+	padding: 20px;
+	text-align: center;
+	font-weight: bold;
+}
+
+#page-header{
+	margin-bottom: 10px;
+	padding: 10px;
+	background-color: #efefef;
+}
+
+#page-header .title{
+	margin-bottom: 5px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#page-header .subtitle{
+	font-size: 13px;
+	color: #999999;
+}
+
+#page-content{
+	margin-top: 20px;
+	padding: 0 30px 0 30px;
+}
+
+#page-content .title{
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#page-content .subtitle{
+	color: #999999;
+	font-size: 12px;
+}
+
+#page-content .body{
+	padding: 20px;
+	text-align: center;
+	font-size: 20px;
+}
+
+/* End Layout*/

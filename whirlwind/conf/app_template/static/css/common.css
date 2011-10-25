@@ -1,0 +1,114 @@
+@charset "UTF-8";
+
+/* Start Element Overrides */
+
+* {margin:0;padding:0;}
+
+html, body {height: 100%;}
+
+body{
+	background: white;
+	font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+	color: #333;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	direction: ltr;
+	unicode-bidi: embed;
+	overflow-y: scroll;
+}
+
+body:before {
+	content:"";
+	height:100%;
+	float:left;
+	width:0;
+	margin-top:-32767px;/
+}
+
+a {
+	color: #258fcd; 
+	text-decoration:none;
+}
+
+a:hover { 
+	text-decoration: underline;
+}
+
+a:active { 
+	outline: 0 none;
+}
+
+img, a img {
+	border:none;
+}
+
+form{
+	display: inline;
+}
+
+/* End Element Overrides */
+
+
+/* Start Common Classes */
+.column, .left {
+	float:left;
+}
+
+.right {
+	float:right;
+}
+
+.clear {
+	clear:both;
+	margin: 0;
+	padding: 0;
+}
+
+.hidden {
+	display:none;
+}
+
+.form{
+	padding: 20px;
+	background-color: #EBEFF9; 
+}
+
+.form .title{
+	margin-bottom: 10px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.field{
+	margin-bottom: 5px;
+}
+
+label{
+	cursor: pointer;
+}
+
+.input{
+
+}
+
+.field input[type="text"], .field input[type="password"]{
+	width: 100%;
+	font-size: 18px;
+}
+
+.field input[type="checkbox"]{
+	vertical-align: middle;
+}
+
+.button{
+	padding: 5px;
+}
+
+.buttons{
+	margin: 10px 0 10px 0;
+	text-align: right;
+}
+
+/* End Common Classes*/

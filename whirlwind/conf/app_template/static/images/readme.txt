@@ -1,0 +1,1 @@
+this is a dumby file so whirlwind-admin.py copies over the folder when creating an app. feel free to remove it. 
