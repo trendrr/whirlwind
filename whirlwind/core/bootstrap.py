@@ -4,6 +4,7 @@ from whirlwind.core.log import Log
 class Bootstrap():
     def __init__(self):
         self.application = None
+        self.init_path()
     
     '''
     make sure the python path is set for this app
@@ -22,7 +23,7 @@ class Bootstrap():
         else:
             Log.create('FILE',log)
     
-    def main(self):
+    def main(self,path):
         #import tornado stuff
         import tornado.web, tornado.httpserver, tornado.ioloop, tornado.options
         from tornado.options import options
@@ -30,7 +31,7 @@ class Bootstrap():
         from whirlwind.db.mongo import Mongo
         
         #parse the app config
-        tornado.options.parse_config_file(os.path.join(os.path.dirname(__file__),'config/settings.py'))
+        tornado.options.parse_config_file(os.path.join(path,'config/settings.py'))
         #parse the command line args
         tornado.options.parse_command_line()
         
@@ -66,28 +67,9 @@ class Bootstrap():
         tornado.ioloop.IOLoop.instance().start()
     
     def init_routes(self):
-        import pkgutil,sys,inspect
-        import application.controllers
-        from whirlwind.view.decorators import route
-        from config.routes import route_list
-        
-        #import all the controllers so the route decorators will run
-        package = application.controllers
-        prefix = package.__name__ + "."
-        
-        for importer, modname, ispkg in pkgutil.iter_modules(package.__path__, prefix):
-            module = __import__(modname)
-        
-        #grab the routes defined via the route decorator
-        url_routes = route.get_routes()
-        
-        #add the routes from our route file
-        url_routes.extend(route_list)
-
-        return url_routes
+        from whirlwind.core.routes import RouteLoader
+        return RouteLoader.load('application.controllers')
     
     @staticmethod
-    def run():
-        bootstrap = Bootstrap()
-        bootstrap.init_path()
-        bootstrap.main()
+    def run(path):
+       (Bootstrap()).main(path)

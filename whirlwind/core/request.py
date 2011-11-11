@@ -58,8 +58,14 @@ class BaseRequest(RequestHandler):
         if extra_imports:
             filter_imports.extend(extra_imports)
         
+        
+        if isinstance(options.template_dir,(list,tuple)):
+            directory_paths = options.template_dir
+        else:
+            directory_paths = [options.template_dir]
+            
         return TemplateLookup(
-            directories=[options.template_dir], 
+            directories=directory_paths, 
             module_directory=options.mako_modules_dir, 
             output_encoding='utf-8', 
             encoding_errors='replace',

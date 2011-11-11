@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-from bootstrap import Bootstrap    
+from whirlwind.core.bootstrap import Bootstrap    
+import os
 
 #main app entry point
 if __name__ == "__main__":
-    Bootstrap.run()
+    Bootstrap.run(os.path.dirname(__file__))
