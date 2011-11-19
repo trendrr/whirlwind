@@ -13,6 +13,7 @@ from tornado.web import ErrorHandler
 from tornado import ioloop
 from pymongo import *
 from whirlwind.view.filters import Filters
+from whirlwind.view.paginator import Paginator
 from whirlwind.core import dotdict
 from whirlwind.db.mongo import Mongo
 
@@ -303,29 +304,33 @@ class RequestHelpers(object):
         sort = None
         order_by = handler.get_argument('order_by',None)
         
-        if order_by:
-            order = handler.get_argument('order',None)
-            order = pymongo.DESCENDING if order.lower() == 'desc' else pymongo.ASCENDING
-            sort = {
-                order:order_by
-            }
-         
-        if select:
-            if sort:
-                results = table_class.find(select).skip((page-1)*count).limit(count).sort(sort)
-            else:
-                results = table_class.find(select).skip((page-1)*count).limit(count)
-            
-            total = table_class.find(select).count()
-        else:
-            if sort:
-                results = table_class.find().skip((page-1)*count).limit(count).sort(sort)
-            else:
-                results = table_class.find().skip((page-1)*count).limit(count)
+        try:
+            if order_by:
+                order = handler.get_argument('order',None)
+                order = pymongo.DESCENDING if order.lower() == 'desc' else pymongo.ASCENDING
+                sort = {
+                    order:order_by
+                }
+             
+            if select:
+                if sort:
+                    results = table_class.find(select).skip((page-1)*count).limit(count).sort(sort)
+                else:
+                    results = table_class.find(select).skip((page-1)*count).limit(count)
                 
-            total = table_class.find().count()
-        
-        return Paginator(results,page,count,total)
+                total = table_class.find(select).count()
+            else:
+                if sort:
+                    results = table_class.find().skip((page-1)*count).limit(count).sort(sort)
+                else:
+                    results = table_class.find().skip((page-1)*count).limit(count)
+                    
+                total = table_class.find().count()
+    
+            return Paginator(results,page,count,total)
+    
+        except:    
+            return Paginator([],page,count,0)
     
     #delete checked list items
     @staticmethod
