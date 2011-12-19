@@ -2,8 +2,8 @@
 
 . /lib/lsb/init-functions
 
-if [[ $1 == -c ]]; then
-        CONFIG_FILE=$2
+if [[ $2 == -c ]]; then
+        CONFIG_FILE=$3
 else
     CONFIG_FILE=/etc/whirlwind.conf
 fi
