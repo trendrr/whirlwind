@@ -9,8 +9,7 @@ class Memcache(Singleton):
         
     @staticmethod
     def create(**kwargs):
-        
-        mc = memcache.Client([kwargs['host']], debug=0)
+        mc = memcache.Client(kwargs['host'].split(','), debug=0)
         if 'debug' in kwargs:
             print kwargs
             print mc
