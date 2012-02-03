@@ -59,9 +59,9 @@ class Session():
         if self['keep_logged_in'] :
             updateHours = 24*7 #if you checked keep me logged in then we roll by a week
         
-        expires = datetime.datetime.utcnow() + timedelta(hours=updateHours)
+        expire_seconds = updateHours * 60 * 60
         # Save the data as a json string
-        Memcache.db.set(self.session_id, json.dumps(self.data),expires);
+        Memcache.db.set(self.session_id, json.dumps(self.data),expire_seconds);
        
         self.saved = True
 

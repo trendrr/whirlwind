@@ -38,3 +38,4 @@ define("redis_port", default=6379, type=int)
 
 define("redis_db", default=0, type=int)
 
+define("memcache_host", default=None)
