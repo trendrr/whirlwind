@@ -1,6 +1,8 @@
 from datetime import datetime
 import pytz, sys, re, locale
 from dateutil import parser
+from tornado.options import options
+
 try:
     import simplejson
 except ImportError:
@@ -34,6 +36,12 @@ class Filters():
             return None
         return val
     
+    @staticmethod
+    def version():
+    	try:
+      		return options.version
+      	except:
+      		return ''
     
     @staticmethod
     def str(val):

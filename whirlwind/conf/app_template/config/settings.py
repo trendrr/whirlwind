@@ -2,6 +2,10 @@
 import sys
 app_path = sys.path[1]
 
+#the app version. you can use in templates via the Filters.version() helper. 
+#good for browser cache busting on js & css 
+version = '0.1'
+
 #run mode
 mode = "development"
 

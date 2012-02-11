@@ -1,5 +1,8 @@
 from tornado.options import define
 
+#version
+define("version", default="0.1", help="app version")
+
 #run mode
 define("mode", default="development", help="run in development or production mode")
 
