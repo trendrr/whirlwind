@@ -52,6 +52,9 @@ db_name = 'whirlwind'
 #you must define a cookie secret. you can use whirlwind-admin.py --generate-cookie-secret
 cookie_secret = "setthistoyourowncookiesecret"
 
+#cookie domain (set this in case you need to share cookies cross subdomain)
+#cookie_domain = '.yourdomain.com'
+
 middleware_classes = [
     "whirlwind.middleware.flash.middleware.FlashMiddleware",
     "whirlwind.middleware.session.middleware.SessionMiddleware",
