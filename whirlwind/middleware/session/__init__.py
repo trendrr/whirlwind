@@ -27,7 +27,7 @@ class Session():
 		
 		if not self.session_id or not self.__lookup_session(request_handler) :
 			self.__create()
-			if cookie_domain:
+			if 'cookie_domain' in locals():
 				request_handler.set_secure_cookie("sessionId", self.session_id, domain=cookie_domain)
 			else:
 				request_handler.set_secure_cookie("sessionId", self.session_id)
