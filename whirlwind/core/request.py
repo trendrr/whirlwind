@@ -28,7 +28,7 @@ class BaseRequest(RequestHandler):
 		self._is_threaded = False
 		self._is_whirlwind_finished = False
 		self.view = dotdict()
-		self.db = Mongo.db.ui
+		self.db = Mongo.db.ui #@UndefinedVariable
 	
 	def template_exists(self, template_name):
 		tmp = self.__template_exists_cache.get(template_name, None)
@@ -72,6 +72,12 @@ class BaseRequest(RequestHandler):
 			encoding_errors='replace',
 			imports=filter_imports
 		)
+	
+	#returns the rendered output of a template populated with kwargs
+	def render_to_string(self,template_name,**kwargs):
+		lookup = self._get_template_lookup()
+		new_template = lookup.get_template(template_name)
+		return new_template.render(**kwargs)
 		
 	def render_template(self,template_name, **kwargs):
 		lookup = self._get_template_lookup()
