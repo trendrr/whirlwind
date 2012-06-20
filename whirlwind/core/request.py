@@ -73,16 +73,19 @@ class BaseRequest(RequestHandler):
 			imports=filter_imports
 		)
 	
-	#returns the rendered output of a template populated with kwargs
+	
+	#to support backwards compat
 	def render_to_string(self,template_name,**kwargs):
+		self.render_to_string(template_name,**kwargs)
+	
+	#returns the rendered output of a template populated with kwargs
+	def render_string(self,template_name,**kwargs):
 		lookup = self._get_template_lookup()
 		new_template = lookup.get_template(template_name)
+		kwargs = self.add_context_vars(**kwargs)
 		return new_template.render(**kwargs)
-		
-	def render_template(self,template_name, **kwargs):
-		lookup = self._get_template_lookup()
-		new_template = lookup.get_template(template_name)
-
+	
+	def add_context_vars(self,**kwargs):
 		tornado_args = {
 			"_": self.locale.translate,
 			"current_user": self.get_current_user(),
@@ -111,6 +114,43 @@ class BaseRequest(RequestHandler):
 		kwargs.update(whirlwind_args)
 		kwargs.update(tornado_args)
 		kwargs.update(self.view)
+		
+		return kwargs
+	
+	def render_template(self,template_name, **kwargs):
+		lookup = self._get_template_lookup()
+		new_template = lookup.get_template(template_name)
+
+#		tornado_args = {
+#			"_": self.locale.translate,
+#			"current_user": self.get_current_user(),
+#			"datetime": datetime,
+#			"escape": escape.xhtml_escape,
+#			"handler": self,
+#			"json_encode": escape.json_encode,
+#			"linkify": escape.linkify,
+#			"locale": self.locale,
+#			"request": self.request,
+#			"reverse_url": self.application.reverse_url,
+#			"squeeze": escape.squeeze,
+#			"static_url": self.static_url,
+#			"url_escape": escape.url_escape,
+#			"xhtml_escape": escape.xhtml_escape,
+#			"xsrf_form_html": self.xsrf_form_html
+#		}
+#		tornado_args.update(self.ui)
+#
+#		whirlwind_args = {
+#			"is_logged_in": self.get_current_user() != None,
+#			"render_as": self.get_argument("render_as", "html"),
+#			"dict_get" : Filters.dict_get
+#		}
+#
+#		kwargs.update(whirlwind_args)
+#		kwargs.update(tornado_args)
+#		kwargs.update(self.view)
+
+		kwargs = self.add_context_vars(**kwargs)
 		
 		self.middleware_manager.run_view_hooks(view=kwargs)
 		
