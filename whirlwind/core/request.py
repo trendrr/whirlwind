@@ -16,6 +16,7 @@ from whirlwind.view.filters import Filters
 from whirlwind.view.paginator import Paginator
 from whirlwind.core import dotdict
 from whirlwind.db.mongo import Mongo
+import pymongo
 
 class BaseRequest(RequestHandler):
 	
@@ -121,35 +122,6 @@ class BaseRequest(RequestHandler):
 		lookup = self._get_template_lookup()
 		new_template = lookup.get_template(template_name)
 
-#		tornado_args = {
-#			"_": self.locale.translate,
-#			"current_user": self.get_current_user(),
-#			"datetime": datetime,
-#			"escape": escape.xhtml_escape,
-#			"handler": self,
-#			"json_encode": escape.json_encode,
-#			"linkify": escape.linkify,
-#			"locale": self.locale,
-#			"request": self.request,
-#			"reverse_url": self.application.reverse_url,
-#			"squeeze": escape.squeeze,
-#			"static_url": self.static_url,
-#			"url_escape": escape.url_escape,
-#			"xhtml_escape": escape.xhtml_escape,
-#			"xsrf_form_html": self.xsrf_form_html
-#		}
-#		tornado_args.update(self.ui)
-#
-#		whirlwind_args = {
-#			"is_logged_in": self.get_current_user() != None,
-#			"render_as": self.get_argument("render_as", "html"),
-#			"dict_get" : Filters.dict_get
-#		}
-#
-#		kwargs.update(whirlwind_args)
-#		kwargs.update(tornado_args)
-#		kwargs.update(self.view)
-
 		kwargs = self.add_context_vars(**kwargs)
 		
 		self.middleware_manager.run_view_hooks(view=kwargs)
@@ -219,7 +191,6 @@ class BaseRequest(RequestHandler):
 	'''
 	def get_arguments_as_dict(self):
 		params = {}
-		retVals = []
 		for key in self.request.arguments:
 			values = self.get_arguments(key)
 			k = unquote(key)
@@ -322,6 +293,7 @@ class RequestHelpers(object):
 			
 		count = handler.get_argument('count',10)
 		count = count if count >= 1 else 10
+		order_by = handler.get_argument('order_by',None)
 		
 		sort = None
 		
@@ -335,16 +307,16 @@ class RequestHelpers(object):
 		original_select = select
 		if max_id != False:
 			select['_id'] = {'$gt' : max_id}
-		elif self.get_argument('min_id',False):
+		elif handler.get_argument('min_id',False):
 			select['_id'] = {'$lt' : min_id}
-		 
+
 		if sort:
 			results = table_class.find(select).limit(count).sort(sort)
 		else:
 			results = table_class.find(select).limit(count)
 		
 		total = table_class.find(original_select).count()
-	   
+
 		return [results,total]
 
 	'''
@@ -372,7 +344,7 @@ class RequestHelpers(object):
 				sort = {
 					order:order_by
 				}
-			 
+
 			if select:
 				if sort:
 					results = table_class.find(select).skip((page-1)*count).limit(count).sort(sort)
@@ -412,9 +384,9 @@ class RequestHelpers(object):
 				'failed':0
 			}
 			
-			for id in ids:
+			for _id in ids:
 				try:
-					pymongo_collection.remove({'_id':id},True)
+					pymongo_collection.remove({'_id':_id},True)
 					stats['success'] += 1
 				except Exception, ex:
 					stats['failed'] += 1
