@@ -1,16 +1,17 @@
 from whirlwind.core.log import Log
+from math import ceil
 
 class Paginator(object):
 
-    def __init__(self, collection, page_number=0, limit=20, total=-1):
+    def __init__(self, collection, page_number=1, limit=20, total=-1):
         self.collection = collection
         self.page_number = int(page_number)
         self.limit = int(limit)
         self.total = int(total)
-        
+   
     @property
     def page(self):
-        start = self.page_number * self.limit
+        start = (self.page_number-1) * self.limit
         end = start + self.limit
         try:
             return self.collection[start:end]
@@ -20,29 +21,24 @@ class Paginator(object):
     
     @property
     def current_page(self):
-        return self.page_number + 1
+        return self.page_number
     
     @property
     def page_count(self):
         if self.total != -1:
-            pages = abs(self.total / self.limit)+1
+            pages = int(ceil((0.0 + self.total) / self.limit))
             return pages
         else:
             return None
     
     @property
     def has_previous(self):
-        return True if (self.page_number > 0) else False
+        return True if (self.page_number > 1) else False
     
     @property
     def has_next(self):
-        try:
-            self.page.rewind()
-        except Exception as detail:
-            Log.warning(detail)
-            
-        return True if (self.page.count(True) == self.limit) else False
-    
+        return True if (self.current_page < self.page_count) else False
+       
     @property
     def previous_page(self):
         if self.has_previous:
