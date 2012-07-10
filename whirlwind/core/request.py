@@ -17,6 +17,27 @@ from whirlwind.view.paginator import Paginator
 from whirlwind.core import dotdict
 from whirlwind.db.mongo import Mongo
 import pymongo
+from tornado.websocket import WebSocketHandler
+
+class WebSocketBaseRequest(WebSocketHandler):
+	
+	def __init__(self, application, request):
+		WebSocketHandler.__init__(self, application, request)
+		self._current_user = None
+		self.middleware_manager = MiddlewareManager(self)
+		self.db = Mongo.db.ui #@UndefinedVariable
+		#run all middleware request hooks
+		self.middleware_manager.run_request_hooks()
+			
+	def get_current_user(self):
+		return self._current_user
+		
+	def set_current_user(self, user):
+		self._current_user = user
+	
+	def is_logged_in(self):
+		return self.get_current_user() != None
+
 
 class BaseRequest(RequestHandler):
 	
