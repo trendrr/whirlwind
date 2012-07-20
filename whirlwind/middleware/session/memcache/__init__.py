@@ -58,7 +58,7 @@ class Session():
 #			print 'already saved. skipping'
 			return
 			
-		updateHours = 1
+		updateHours = 8
 			
 		if self['keep_logged_in'] :
 			updateHours = 24*7 #if you checked keep me logged in then we roll by a week

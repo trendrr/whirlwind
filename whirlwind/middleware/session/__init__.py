@@ -50,7 +50,7 @@ class Session():
 #			print 'already saved. skipping'
 			return
 			
-		updateHours = 1
+		updateHours = 8
 			
 		if self['keep_logged_in'] :
 			updateHours = 24*7 #if you checked keep me logged in then we roll by a week
@@ -122,7 +122,7 @@ class Session():
 		#store the session_id in a secure cookie
 		self.data = {
 			'_id':self.session_id,
-			'expires':datetime.datetime.utcnow() + timedelta(hours=1)
+			'expires':datetime.datetime.utcnow() + timedelta(hours=8)
 		}
 		Mongo.db.ui.sessions.insert(self.data)
 		
