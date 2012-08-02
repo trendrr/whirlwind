@@ -1,7 +1,7 @@
 # Welcome to whirlwind
 
 Whirlwind is an easy-to-use meta framework that makes efficient use
-of some of the fastest server-side and client-side web frameworks and libraries in an organized fashion. The goal of whirlwind is to speed up the configuration and development of scalable and efficient web applications. It's the glue for the seamless deployment of a combination of some useful parts of [well-known and robust technologies](https://github.com/trendrr/whirlwind/wiki/Credits). 
+of some of the fastest server-side and client-side technologies in an organized fashion. The goal of whirlwind is to speed up the configuration and development of scalable and efficient web applications. It's the glue for the seamless deployment of a combination of some useful parts of [well-known and robust technologies](https://github.com/trendrr/whirlwind/wiki/Credits). 
 
 The code base of whirlwind was originally developed as the underlying web framework for the
 social media metrics and analytics platform [**Trendrr**](http://trendrr.com).
@@ -112,7 +112,7 @@ whirlwind-admin.py --gcs
 python main.py
 </pre>
 
-### thats it! now just point your browser to the app start page to see whirlwind in action. 
+### that's it! now just point your browser to the app start page to see whirlwind in action. 
 <pre>
 http://localhost:8000/
 </pre>
