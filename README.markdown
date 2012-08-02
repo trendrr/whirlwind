@@ -1,7 +1,7 @@
 # Welcome to whirlwind
 The goal of whirlwind is to provide an easy to use python framework built on top of todays fastest tech. The whirlwind code base was originally developed as the underlying web framework for the social media metrics and analytics platform http://trendrr.com. 
 
-Take a look at our wiki for docs and more info. 
+Take a look at [our wiki for docs and more info](http://github.com/trendrr/whirlwind/wiki). 
 
 ## Setup instructions
 
