@@ -4,7 +4,7 @@ Whirlwind is an easy-to-use meta framework that makes efficient use
 of some of the fastest server-side and client-side web frameworks and libraries in an organized fashion. The goal of whirlwind is to speed up the configuration and development of scalable and efficient web applications. It's the glue for the seamless deployment of a combination of some useful parts of [well-known and robust technologies](https://github.com/trendrr/whirlwind/wiki/Credits). 
 
 The code base of whirlwind was originally developed as the underlying web framework for the
-social media metrics and analytics platform [*Trendrr*](http://trendrr.com).
+social media metrics and analytics platform [**Trendrr**](http://trendrr.com).
 
 Check out [our wiki for docs and more info](http://github.com/trendrr/whirlwind/wiki). 
 
