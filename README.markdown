@@ -1,6 +1,6 @@
 # Welcome to whirlwind
 
-Whirlwind is an easy-to-use meta framework that makes efficient use
+Whirlwind is an easy-to-use MVC framework written in Python that makes efficient use
 of some of the fastest server-side and client-side technologies in an organized fashion. The goal of whirlwind is to speed up the configuration and development of scalable and efficient web applications. It's the glue for the seamless deployment of a combination of some useful parts of [well-known and robust technologies](https://github.com/trendrr/whirlwind/wiki/Credits). 
 
 The code base of whirlwind was originally developed as the underlying web framework for the
