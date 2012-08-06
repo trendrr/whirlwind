@@ -97,8 +97,8 @@ python setup.py install
 ## Now whirlwind is installed
 
 **Note**: Before you create a whirlwind app, you should make sure you are in the
-directory where you want your whirlwind app to be created. Therefore, make
-sure to `cd` out of the whirlwind repository (in which you installed whirlwind) on your local machine. You should preferably create a new whirwind app in your home directory.
+directory where you want your whirlwind app to exist. Therefore, make
+sure to `cd` out of the whirlwind repository (in which you installed whirlwind) on your machine. You should preferably create a new whirwind app in your home directory.
 
 ### create a whirlwind app
 <pre>
