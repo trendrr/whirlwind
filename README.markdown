@@ -96,9 +96,9 @@ python setup.py install
 
 ## Now whirlwind is installed
 
-**Before you create a whirlwind app, you should make sure you are in the
+**Note**: Before you create a whirlwind app, you should make sure you are in the
 directory where you want your whirlwind app to be created. Therefore, make
-sure to `cd` out of the whirlwind repository (in which you installed whirlwind) on your local machine. You should preferably create a new whirwind app in your home directory.**
+sure to `cd` out of the whirlwind repository (in which you installed whirlwind) on your local machine. You should preferably create a new whirwind app in your home directory.
 
 ### to create a whirlwind app
 <pre>
@@ -106,9 +106,18 @@ whirlwind-admin.py --create-application myapp
 </pre>
 
 ### fill in env specific settings in settings file [config/settings.py]
+
+Then `cd` into `myapp` (the name of the app you created)
 <pre>
-generate a cookie secret (copy output to config/settings.py)
+# generate a cookie secret
 whirlwind-admin.py --gcs
+</pre>
+
+An auto-generated secret should be printed to standard output. 
+
+### Set the variable `cookie_secret` in config/settings.py to the printed out secret 
+<pre>
+cookie_secret = "setthistoyourowncookiesecret"
 </pre>
 
 ### to start app
@@ -121,7 +130,7 @@ python main.py
 http://localhost:8000/
 </pre>
 
-
+If you encounter any problems before, during, or after installation, please refer to our [FAQ](http://github.com/trendrr/whirlwind/wiki/FAQ).
 
 Copyright &copy; 2010 Trendrr
 
