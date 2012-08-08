@@ -6,7 +6,9 @@ of some of the fastest server-side and client-side technologies in an organized 
 The code base of whirlwind was originally developed as the underlying web framework for the
 social media metrics and analytics platform [**Trendrr**](http://trendrr.com).
 
-Check out [our wiki for docs and more info](http://github.com/trendrr/whirlwind/wiki). 
+Check out [our wiki for documentation](http://github.com/trendrr/whirlwind/wiki). 
+
+Need help troubleshooting, refer to our [[FAQ | FAQ]].
 
 
 ## Setup instructions
