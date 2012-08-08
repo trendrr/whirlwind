@@ -8,7 +8,7 @@ social media metrics and analytics platform [**Trendrr**](http://trendrr.com).
 
 Check out [our wiki for documentation](http://github.com/trendrr/whirlwind/wiki). 
 
-Need help troubleshooting, refer to our [[FAQ | FAQ]].
+Need help troubleshooting, refer to our [FAQ](https://github.com/trendrr/whirlwind/wiki/FAQ).
 
 
 ## Setup instructions
