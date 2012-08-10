@@ -58,44 +58,7 @@ sudo python setup.py install
 
 ## On Windows
 
-### download and install python
-<pre>
-http://www.python.org/download/
-</pre>
-
-### download and install setup tools
-<pre>
-http://pypi.python.org/pypi/setuptools#files
-</pre>
-
-### upgrade setuptools
-<pre>
-easy_install -U setuptools
-</pre>
-
-### install required python modules
-<pre>
-easy_install tornado
-easy_install Mako
-easy_install MongoKit
-easy_install python-dateutil
-easy_install pytz
-</pre>
-
-### clone whirlwind
-<pre>
-git clone git://github.com/trendrr/whirlwind.git
-</pre>
-
-### change to whirlwind directory
-<pre>
-cd whirlwind
-</pre>
-
-### run the setup script
-<pre>
-python setup.py install
-</pre>
+For instructions on how to install **whirlwind** on windows, visit [this page](https://github.com/trendrr/whirlwind/wiki/Windowsinstall).
 
 ## Now whirlwind is installed
 
