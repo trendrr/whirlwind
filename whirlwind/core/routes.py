@@ -6,7 +6,7 @@ class RouteLoader(object):
         return loader.init_routes(package_name,include_routes_file)
         
     def init_routes(self,package_name,include_routes_file=True):
-        import pkgutil,sys,inspect
+        import pkgutil,sys
         from whirlwind.view.decorators import route
         
         package = __import__(package_name)
@@ -22,7 +22,7 @@ class RouteLoader(object):
         
         #add the routes from our route file
         if include_routes_file:
-            from config.routes import route_list
+            from config.routes import route_list #@UnresolvedImport
             url_routes.extend(route_list)
 
 
