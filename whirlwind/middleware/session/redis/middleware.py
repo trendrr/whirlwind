@@ -5,7 +5,7 @@ from tornado.options import options
 class SessionMiddleware():
     def __init__(self,request):
         if options.redis_host :
-            Redis.create(host=options.redis_host, port=options.redis_port, db=options.redis_db, debug=False, connection_pool=True)
+            Redis.create(host=options.redis_host, port=options.redis_port, db=options.redis_db, connection_pool=True)
         else:
             raise Exception('redis_session.SessionMiddleware redis settings not defined')
         
