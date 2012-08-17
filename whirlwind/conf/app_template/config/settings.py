@@ -36,7 +36,7 @@ db_name = 'whirlwind'
 #uncomment the following if when using redis session middleware
 
 #redis host
-#redis_host = 'localhost'
+#redis_host = 'localhost:11211'
 
 #redis port
 #redis_port = 6379
