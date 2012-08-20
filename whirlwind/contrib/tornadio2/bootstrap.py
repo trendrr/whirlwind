@@ -3,7 +3,7 @@ Created on Aug 16, 2012
 
 @author: matt
 '''
-from whirlwind.core.bootstrap import Bootstrap
+from whirlwind.core.bootstrap import Bootstrap as WhirlwindBootstrap
 import os, logging, tornadio2
 from os import path as op
 import tornado.web, tornado.options
@@ -14,9 +14,9 @@ from whirlwind.db.redis_interface import Redis
 from whirlwind.contrib.tornadio2.router_connection import ConnectionLoader,\
 	RouterConnection
 
-class Bootstrap(Bootstrap):
+class Bootstrap(WhirlwindBootstrap):
 	def __init__(self):
-		Bootstrap.__init__(self)
+		WhirlwindBootstrap.__init__(self)
 		self.iorouter = None
 	
 	def init_redis(self):
@@ -74,7 +74,7 @@ class Bootstrap(Bootstrap):
 			"cookie_secret": options.cookie_secret,
 			"login_url": options.login_url,
 			"flash_policy_port":843,
-			"flash_policy_file":op.join(options.app_path, '/static/misc/flashpolicy.xml'),
+			"flash_policy_file":op.join(options.static_path, '/misc/flashpolicy.xml'),
 			"socket_io_port":options.port
 		}
 		
