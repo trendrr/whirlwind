@@ -145,6 +145,38 @@ class Filters():
             return val
         
     @staticmethod
+    def get_time_string(str):
+        if str == "N/A":
+            return str
+        
+        parts = str.split("/")
+        isPM = parts[0].find('am') == -1
+        if not isPM:
+            parts[0] = parts[0].replace("am","")
+        parts[1] = parts[1].replace("c","")
+        if(len(parts[0]) >= 3):
+            if(len(parts[0]) == 4):
+                parts[0] = parts[0][0:2] + ":" + parts[0][2:]
+            else:
+                parts[0] = parts[0][:1] + ":" + parts[0][1:]
+        if(len(parts[1]) >= 3):
+            if(len(parts[1]) == 4):
+                parts[1] = parts[1][0:2] + ":" + parts[1][2:]
+            else:
+                parts[1] = parts[1][:1] + ":" + parts[1][1:]
+                
+                
+        if isPM:
+            time = parts[0] + "/" + parts[1] + "c"
+        else:
+            time = parts[0] + "am/" + parts[1] + "c"
+        
+        return time
+    
+    
+    
+            
+    @staticmethod
     def pluralize(str):
         pl = Pluralizer()
         return pl.plural(str)
