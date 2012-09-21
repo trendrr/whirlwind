@@ -1,17 +1,17 @@
 '''
-Created on Aug 16, 2012
+Created on Sep 21, 2012
 
 @author: matt
 
 Here is an example of a chat websocket connection 
 '''
 
-#import tornadio2
-#from whirlwind.db.redis_interface import Redis
-#from whirlwind.contrib.tornadio2.router_connection import connection
+#from whirlwind.contrib.sockjs.router_connection import connection
+#from sockjs.tornado import SockJSConnection
+
 #
-#@connection('/chat')
-#class ChatConnection(tornadio2.conn.SocketConnection):
+#@connection('chat')
+#class ChatConnection(SockJSConnection):
 #    # Class level variable
 #    participants = set()
 #

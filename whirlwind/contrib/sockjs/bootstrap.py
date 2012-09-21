@@ -4,30 +4,22 @@ Created on Aug 16, 2012
 @author: matt
 '''
 from whirlwind.core.bootstrap import Bootstrap as WhirlwindBootstrap
-import os, logging, tornadio2
-from os import path as op
+import os, logging
+# from os import path as op
 import tornado.web, tornado.options
 from tornado.options import options
-from config import options_setup #@UnresolvedImport
+from config import options_setup
 from whirlwind.db.mongo import Mongo
-from whirlwind.db.redis_interface import Redis
-from whirlwind.contrib.tornadio2.router_connection import ConnectionLoader,\
-	RouterConnection
+from whirlwind.contrib.sockjs.router_connection import ConnectionLoader,RouterConnection
+from whirlwind.contrib.sockjs.multiplex import MultiplexConnection
+from sockjs.tornado import SockJSRouter
+
 
 class Bootstrap(WhirlwindBootstrap):
 	def __init__(self):
 		WhirlwindBootstrap.__init__(self)
-		self.iorouter = None
-	
-	def init_redis(self):
-		#connect to redis
-		Redis.create(
-			host=options.redis_host, 
-			port=options.redis_port, 
-			db=options.redis_db, 
-			connection_pool=True
-		)
-		
+		self.connection_router = None
+
 	def init_mongo(self):
 		#connect to mongo
 		Mongo.create(
@@ -35,7 +27,7 @@ class Bootstrap(WhirlwindBootstrap):
 			port=options.db_port
 		)
 	
-	def init_iorouter(self):
+	def init_connection_router(self):
 		#init our url routes
 		connections = ConnectionLoader.load('application.connections')
 		
@@ -43,10 +35,12 @@ class Bootstrap(WhirlwindBootstrap):
 		for conn in connections:
 			RouterConnection.__endpoints__[conn[0]] = conn[1]
 
-		# Create tornadio2 router
-		self.iorouter = tornadio2.router.TornadioRouter(
-			RouterConnection, dict(websocket_check=True)
-		)
+		# Create multiplexer
+		router = MultiplexConnection.get(**RouterConnection.__endpoints__)
+
+		# Register multiplexer
+		self.connection_router = SockJSRouter(router, '/echo')
+
 
 	def main(self,path):
 		
@@ -59,28 +53,22 @@ class Bootstrap(WhirlwindBootstrap):
 		#init mongo singleton interface
 		self.init_mongo()
 		
-		#init redis singleton interface
-		self.init_redis()
-		
-		#init our url routes
+		#init our standard tornado routes
 		url_routes = self.init_routes()
 		
-		#init our tornadio2 router
-		self.init_iorouter()
+		#init our sockjs connection router
+		self.init_connection_router()
 		
 		#add in any app settings 
 		app_settings = {
 			"static_path": options.static_path,
 			"cookie_secret": options.cookie_secret,
-			"login_url": options.login_url,
-			"flash_policy_port":843,
-			"flash_policy_file":op.join(options.static_path, '/misc/flashpolicy.xml'),
-			"socket_io_port":options.port
+			"login_url": options.login_url
 		}
 		
 		# Create application
 		self.application = tornado.web.Application(
-			self.iorouter.apply_routes(url_routes),
+			self.connection_router.urls + url_routes,
 			**app_settings
 		)
 		
@@ -89,9 +77,12 @@ class Bootstrap(WhirlwindBootstrap):
 		
 		#log our start message
 		logging.info("Ready and listening")
-		
-		#start up the server
-		tornadio2.server.SocketServer(self.application)
+
+		#listen on our desired port
+		self.application.listen(options.port)
+
+		#start the tornado IO loop
+		tornado.ioloop.IOLoop.instance().start()
 	
 	@staticmethod
 	def run(path):

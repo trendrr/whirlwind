@@ -1,4 +1,5 @@
 from tornado.options import define
+import logging
 
 #version
 define("version", default="0.1", help="app version")

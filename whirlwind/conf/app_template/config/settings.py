@@ -49,7 +49,7 @@ db_name = 'whirlwind'
 #memcache host
 #memcache_host = 'localhost'
 
-#you must define a cookie secret. you can use whirlwind-admin.py --generate-cookie-secret
+#you must define a cookie secret. you can use the following to generate one:  whirlwind-admin.py --generate-cookie-secret
 cookie_secret = "setthistoyourowncookiesecret"
 
 #cookie domain (set this in case you need to share cookies cross subdomain)
