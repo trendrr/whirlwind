@@ -21,7 +21,7 @@ class ConnectionLoader(object):
 		import pkgutil,sys
 		
 		package = __import__(package_name)
-		controllers_module = sys.modules[package_name]
+		controllers_module = sys.modulespackage_name]
 		
 		prefix = controllers_module.__name__ + "."
 		
