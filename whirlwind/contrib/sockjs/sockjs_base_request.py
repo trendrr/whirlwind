@@ -5,7 +5,7 @@ import json
 class SockjsBaseRequest(SockJSConnection):
 
 	def __init__(self, sjsession):
-		SockJSConnection.__init__(self, sjssession)
+		SockJSConnection.__init__(self, sjsession)
 		self.db = Mongo.db.ui
 
 	def send_message(self,message):
