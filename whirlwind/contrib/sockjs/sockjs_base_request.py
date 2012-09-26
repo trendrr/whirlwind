@@ -5,8 +5,8 @@ import json
 
 class SockjsBaseRequest(SockJSConnection):
 
-	def __init__(self, application, request):
-		SockJSConnection.__init__(self, application, request)
+	def __init__(self, sjssession):
+		SockJSConnection.__init__(self, sjssession)
 		self._current_user = None
 		self.middleware_manager = MiddlewareManager(self)
 		self.db = Mongo.db.ui
