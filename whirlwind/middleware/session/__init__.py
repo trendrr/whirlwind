@@ -146,7 +146,11 @@ class Session():
 			return False
 		
 		#load the user
-		if self['username']:
+		if self['lookup_key']:
+			key = self['lookup_key']
+			user = Mongo.db.ui.users.User.find_one({key: self[key]})
+			request_handler.set_current_user(user)
+		elif self['username']:
 			user = Mongo.db.ui.users.User.find_one({'_id': self['username']})
 			request_handler.set_current_user(user)
 
