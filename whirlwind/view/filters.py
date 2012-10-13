@@ -2,6 +2,7 @@ from datetime import datetime
 import pytz, sys, re, locale
 from dateutil import parser
 from tornado.options import options
+from dateutil import tz
 
 try:
     import simplejson
@@ -112,16 +113,16 @@ class Filters():
         return (re.sub(r'[^0-9a-zA-Z]', '_',str)).lower()
 
     @staticmethod
-    def _convert_utc_to_local(utc_dt,tz):
+    def _convert_utc_to_local(utc_dt,timezone):
         try:
-            print utc_dt
-            local = pytz.timezone(tz)
-            local_dt = utc_dt.replace(tzinfo = local)
-            return local_dt.astimezone (pytz.utc)
+            from_zone = tz.gettz('UTC')
+            to_zone = tz.gettz(timezone)
+            utc_dt = utc_dt.replace(tzinfo=from_zone)
+            return utc_dt.astimezone(to_zone)
         except Exception:
             print sys.exc_info()
             return None
-    
+
     @staticmethod
     def url_pretty(str):
         if not str :
