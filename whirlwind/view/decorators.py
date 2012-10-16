@@ -1,5 +1,6 @@
-import functools, urllib
+import urllib
 from tornado.web import HTTPError
+
 
 def role_required(role):
     def wrap(view_func):
@@ -17,16 +18,17 @@ def role_required(role):
                     self.flash.error = "You do not have permissions to access the requested url"
                     self.redirect('/')
                     return
-                
+
                 return view_func(self, *args, **kwargs)
 
         return has_role
     return wrap
 
+
 class route(object):
     """
     taken from http://gist.github.com/616347
-    
+
     decorates RequestHandlers and builds up a list of routables handlers
 
     Tech Notes (or "What the *@# is really happening here?")
@@ -64,4 +66,3 @@ class route(object):
     @classmethod
     def get_routes(self):
         return self._routes
-

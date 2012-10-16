@@ -1,16 +1,13 @@
-from datetime import datetime
-import pytz, sys, re, locale
-from dateutil import parser
+import re
+import sys
+import json
+import locale
 from tornado.options import options
 from dateutil import tz
 
-try:
-    import simplejson
-except ImportError:
-    import json as simplejson
 
 class Filters():
-    
+
     '''
         Checks whether the passed in value is considered useful otherwise will return None
 
@@ -23,97 +20,95 @@ class Filters():
     '''
     @staticmethod
     def val(val):
-        if val == None :
+        if val == None:
             return None
-        if val == 'null' :
+        if val == 'null':
             return None
-        if val == 'undefined' :
+        if val == 'undefined':
             return None
-        if val == 0 :
+        if val == 0:
             return val
-        if isinstance(val, basestring) and len(val) == 0 :
+        if isinstance(val, basestring) and len(val) == 0:
             return None
-        if isinstance(val, dict) and len(val) == 0 :
+        if isinstance(val, dict) and len(val) == 0:
             return None
         return val
-    
+
     @staticmethod
     def version():
-    	try:
-      		return options.version
-      	except:
-      		return ''
-    
+        try:
+            return options.version
+        except:
+            return ''
+
     @staticmethod
     def str(val):
         if not val:
             return ''
         #TODO: sensibly handle:
-        # dicts => json 
-        # dates => pretty 
+        # dicts => json
+        # dates => pretty
         # numbers => add commas
         return str(val)
-        
-    
+
     '''
         Checks for various styles of true.
         matches on True, 'true', 'on'
     '''
     @staticmethod
-    def is_true(val):        
-        if not val :
+    def is_true(val):
+        if not val:
             return False
-        if isinstance(val, basestring) :
-            if val == 'True' or val == 'true' or val == 'on' :
+        if isinstance(val, basestring):
+            if val == 'True' or val == 'true' or val == 'on':
                 return True
             return False
-        if val == True :
-             return True
+        if val == True:
+            return True
         return False
-    
-    
+
     @staticmethod
     def strip_html(data):
-        if not data :
+        if not data:
             return
         p = re.compile(r'<[^<]*?/?>')
         return p.sub('', data)
-    
+
     @staticmethod
-    def long_timestamp(dt_str,tz="America/New_York"):
-        utc_dt = Filters._convert_utc_to_local(dt_str,tz)
+    def long_timestamp(dt_str, tz="America/New_York"):
+        utc_dt = Filters._convert_utc_to_local(dt_str, tz)
         if utc_dt:
             return utc_dt.strftime("%A, %d. %B %Y %I:% %p")
         else:
             return dt_str
-    
+
     @staticmethod
-    def short_timestamp(dt_str,tz="America/New_York"):
-        tz_dt = Filters._convert_utc_to_local(dt_str,tz)
+    def short_timestamp(dt_str, tz="America/New_York"):
+        tz_dt = Filters._convert_utc_to_local(dt_str, tz)
         return tz_dt.strftime("%m/%d/%Y %I:%M %p")
-    
+
     @staticmethod
-    def short_date(dt_str,tz="America/New_York"):
-        tz_dt = Filters._convert_utc_to_local(dt_str,tz)
+    def short_date(dt_str, tz="America/New_York"):
+        tz_dt = Filters._convert_utc_to_local(dt_str, tz)
         return tz_dt.strftime("%m/%d/%Y")
-    
+
     @staticmethod
-    def ellipsis(data,limit,append='...'): 
+    def ellipsis(data, limit, append='...'):
         return (data[:limit] + append) if len(data) > limit else data
-    
+
     '''
      filter to translate a dict to json
     '''
     @staticmethod
     def to_json(dict):
-        return simplejson.dumps(dict, True) 
-        
-    @staticmethod
-    def idize(str):
-        return (re.sub(r'[^0-9a-zA-Z]', '_',str)).lower()
+        return json.dumps(dict, True)
 
     @staticmethod
-    def _convert_utc_to_local(utc_dt,timezone):
+    def idize(str):
+        return (re.sub(r'[^0-9a-zA-Z]', '_', str)).lower()
+
+    @staticmethod
+    def _convert_utc_to_local(utc_dt, timezone):
         try:
             from_zone = tz.gettz('UTC')
             to_zone = tz.gettz(timezone)
@@ -125,18 +120,18 @@ class Filters():
 
     @staticmethod
     def url_pretty(str):
-        if not str :
+        if not str:
             return
 
-        url = re.sub(r'[^0-9a-zA-Z]', '_',Filters.str(str))
-        url = re.sub('_+', '_',url)
+        url = re.sub(r'[^0-9a-zA-Z]', '_', Filters.str(str))
+        url = re.sub('_+', '_', url)
         #max 32 chars.
-        if len(url) > 32 :
-            url = url[0:32] 
+        if len(url) > 32:
+            url = url[0:32]
         return url
-    
+
     @staticmethod
-    def add_commas(val,as_data_type='int',the_locale=locale.LC_ALL):
+    def add_commas(val, as_data_type='int', the_locale=locale.LC_ALL):
         locale.setlocale(the_locale, "")
         if as_data_type == 'int':
             return locale.format('%d', int(val), True)
@@ -144,17 +139,18 @@ class Filters():
             return locale.format('%f', float(val), True)
         else:
             return val
-        
+
     @staticmethod
     def get_time_string(str):
         if str == "N/A":
             return str
-        
+
         parts = str.split("/")
         isPM = parts[0].find('am') == -1
         if not isPM:
-            parts[0] = parts[0].replace("am","")
-        parts[1] = parts[1].replace("c","")
+            parts[0] = parts[0].replace("am", "")
+
+        parts[1] = parts[1].replace("c", "")
         if(len(parts[0]) >= 3):
             if(len(parts[0]) == 4):
                 parts[0] = parts[0][0:2] + ":" + parts[0][2:]
@@ -165,18 +161,14 @@ class Filters():
                 parts[1] = parts[1][0:2] + ":" + parts[1][2:]
             else:
                 parts[1] = parts[1][:1] + ":" + parts[1][1:]
-                
-                
+
         if isPM:
             time = parts[0] + "/" + parts[1] + "c"
         else:
             time = parts[0] + "am/" + parts[1] + "c"
-        
+
         return time
-    
-    
-    
-            
+
     @staticmethod
     def pluralize(str):
         pl = Pluralizer()
@@ -185,16 +177,15 @@ class Filters():
     '''
         Does a get on the dict.  will work with dot operator, and not throw an exception
         returns default if the key doesn't work
-        
+
         will also work to reach into lists via integer keys.
-        
+
         example:
         {
             'key1' : {
                 'subkey' : [{'subsubkey1':9},{}]
             }
         }
-        
         Filters.dict_get('key1.subkey.0.subsubkey1') => 9
     '''
     @staticmethod
@@ -204,9 +195,9 @@ class Filters():
             keys = key.split(".")
         except:
             return default
-        
+
         tmp = dict
-        for k in keys :
+        for k in keys:
             try:
                 tmp = tmp[k]
             except TypeError:
@@ -244,30 +235,28 @@ class Pluralizer():
                   ('$', '$', 's')
                   )
 
-    def regex_rules(rules=rule_tuple):
+    def regex_rules(self, rules=rule_tuple):
         for line in rules:
             pattern, search, replace = line
             yield lambda word: re.search(pattern, word) and re.sub(search, replace, word)
- 
-    def plural(noun):
-        for rule in regex_rules():
+
+    def plural(self, noun):
+        for rule in self.regex_rules():
             result = rule(noun)
             if result:
                 return result
-    
-    
-    
+
 
 class Cycler():
     cycle_registry = {}
-    
+
     @staticmethod
     def uuid():
         import uuid
         return uuid.uuid1()
-    
+
     @staticmethod
-    def cycle(values,name='default'):
+    def cycle(values, name='default'):
         if name in Cycler.cycle_registry:
             try:
                 return Cycler.cycle_registry[name].next()
@@ -277,4 +266,3 @@ class Cycler():
         else:
             Cycler.cycle_registry[name] = iter(values)
             return Cycler.cycle_registry[name].next()
-        
