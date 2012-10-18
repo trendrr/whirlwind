@@ -1,7 +1,6 @@
 # Welcome to whirlwind
 
-Whirlwind is an easy-to-use **MVC** framework written in **Python** that makes efficient use
-of some of the fastest server-side and client-side technologies in an organized fashion. The goal of whirlwind is to speed up the configuration and development of scalable and efficient web applications. It's the glue for the seamless deployment of a combination of some useful parts of [well-known and robust technologies](https://github.com/trendrr/whirlwind/wiki/Credits). 
+Whirlwind is an easy-to-use **MVC** framework written in **Python** that builds on top MongoDB and Tornado ([and others](https://github.com/trendrr/whirlwind/wiki/Credits)) to be super fast and scalable.
 
 The code base of whirlwind was originally developed as the underlying web framework for the
 social media metrics and analytics platform [**Trendrr**](http://trendrr.com).
@@ -13,22 +12,9 @@ Need help troubleshooting, refer to our [FAQ](https://github.com/trendrr/whirlwi
 
 ## Setup instructions
 
-## On Ubuntu (recommended)
+### On Linux/Unix/OSX
 
-### install python dev
-<pre>
-sudo apt-get install python-dev
-</pre>
-
-### install the python setup tools
-<pre>
-sudo apt-get install python-setuptools
-</pre>
-
-### upgrade setuptools
-<pre>
-sudo easy_install -U setuptools
-</pre>
+Requires [easy_install](http://pypi.python.org/pypi/setuptools) or better yet [pip](http://pypi.python.org/pypi/pip). 
 
 ### install required python modules
 <pre>
@@ -36,7 +22,6 @@ sudo easy_install tornado
 sudo easy_install Mako
 sudo easy_install MongoKit
 sudo easy_install python-dateutil
-sudo easy_install pytz
 </pre>
 
 ### clone whirlwind
@@ -55,16 +40,9 @@ sudo python setup.py install
 </pre>
 
 
-
 ## On Windows
 
 For instructions on how to install **whirlwind** on windows, visit [this page](https://github.com/trendrr/whirlwind/wiki/Windowsinstall).
-
-## Now whirlwind is installed
-
-**Note**: Before you create a whirlwind app, you should make sure you are in the
-directory where you want your whirlwind app to exist. Therefore, make
-sure to `cd` out of the whirlwind repository (in which you installed whirlwind) on your machine. You should preferably create a new whirwind app in your home directory.
 
 ### create a whirlwind app
 <pre>
@@ -96,9 +74,9 @@ python main.py
 http://localhost:8000/
 </pre>
 
-If you encounter any problems before, during, or after installation, please refer to our [FAQ](http://github.com/trendrr/whirlwind/wiki/FAQ) for troubleshooting instructions.
+If you encounter any problems please refer to our [FAQ](http://github.com/trendrr/whirlwind/wiki/FAQ) for troubleshooting instructions or post a new issue.
 
-Copyright &copy; 2010 Trendrr
+Copyright &copy; 2010-2012 Trendrr
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
