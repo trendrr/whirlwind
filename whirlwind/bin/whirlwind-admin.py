@@ -81,7 +81,6 @@ def main():
     if options.generate_model_indexes:
 
         import sys
-        import os
         import pkgutil
         from whirlwind.db.mongo import Mongo
 
@@ -112,7 +111,7 @@ def main():
         for doc, obj in Mongo.db.connection._registered_documents.iteritems():
             try:
 
-                print 'atempting to create index for ', doc
+                print 'Attempting to create index for ', doc
                 #generate the index for this doc on the collection
                 obj.generate_index(Mongo.db.connection[conf.settings.db_name][obj._obj_class.__collection__])
             except Exception, e:
