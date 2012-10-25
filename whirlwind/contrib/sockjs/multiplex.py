@@ -9,7 +9,7 @@ class ChannelSession(session.BaseSession):
 		self.base = base
 		self.name = name
 
-	def send_message(self, msg, binary=False):
+	def send_message(self, msg, stats=True, binary=False):
 		self.base.send('msg,' + self.name + ',' + msg)
 
 	def on_message(self, msg):
